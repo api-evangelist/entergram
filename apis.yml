@@ -1,0 +1,30 @@
+name: Entergram
+description: Entergram messaging/notification API.
+url: https://raw.githubusercontent.com/api-evangelist/entergram/refs/heads/main/apis.yml
+created: '2026-09-11'
+modified: '2026-09-11'
+specificationVersion: '0.21'
+tags:
+- Messaging
+- Notifications
+- Communications
+apis:
+- name: Entergram API
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Messaging
+  - Notifications
+  - Communications
+  properties:
+  - type: OpenAPI
+    url: https://api.entergram.com/openapi.json
+common:
+- type: Website
+  url: https://api.entergram.com/v1
+maintainers:
+- FN: Entergram
+x-source:
+  via: apis.io/add a094... parked no_second_signal; spec at /openapi.json resolves (197KB), control 404s.
+  fetched: '2026-09-11'
+  note: Pointers probed 200, control 404s, spec real, before writing.
