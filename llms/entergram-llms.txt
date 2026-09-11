@@ -1,0 +1,155 @@
+# Entergram - Telegram CRM for Teams
+
+> Entergram is the first CRM built specifically for Telegram. It connects personal Telegram accounts (not bots) into a shared workspace where sales, support, and community teams manage conversations at scale.
+
+## What Entergram Does
+
+Entergram turns Telegram into a professional CRM platform. Teams connect their personal Telegram accounts to a shared workspace and get:
+
+- **Multi-Account Inbox**: Connect unlimited personal Telegram accounts to one workspace. Every chat, group, and channel in one place.
+- **CRM Table & Kanban**: Spreadsheet-like table view and drag-and-drop Kanban board for managing Telegram conversations as a sales pipeline.
+- **Custom Columns & Labels**: Tag and categorize chats with custom fields - lead stage, deal size, priority, or any data your workflow needs.
+- **Telegram MCP Server**: The first Model Context Protocol server for personal Telegram accounts. Connect Claude, ChatGPT, Cursor, Windsurf, n8n, Make.com, or any MCP-compatible AI agent to your Telegram workspace. AI agents can read chats, create tickets, fire broadcasts, and update CRM fields autonomously.
+- **REST API**: Full programmatic access to Telegram CRM data. Sync chats to BigQuery, trigger broadcasts from Stripe events, build internal dashboards.
+- **Broadcast Messaging**: Send templated messages to tagged segments of contacts. Supports text, images, documents, and scheduled sends.
+- **Ticketing System**: Convert Telegram conversations into trackable tickets with assignee, priority, SLA, and status tracking.
+- **Chat Analytics**: Response time metrics, message volume heatmaps, team performance dashboards, and activity tracking.
+- **Team Workspaces**: Isolated workspaces with role-based access. Each team member sees only the accounts and chats assigned to them.
+- **Dedicated Proxies**: Every connected Telegram account runs behind its own residential IP - never shared, never rotated.
+- **Mobile App (PWA)**: Full CRM experience on iPhone, iPad, and Android via Progressive Web App.
+
+## Telegram MCP Server - MCP for Personal Telegram Accounts
+
+Entergram provides the first and only MCP (Model Context Protocol) server for personal Telegram accounts. Unlike bot-based integrations, Entergram's MCP server connects AI agents to your real Telegram chats, contacts, groups, channels, and CRM data - the same conversations you see in the Telegram app.
+
+### Supported MCP Clients
+- Claude Desktop, Claude Code (CLI), Claude.ai
+- ChatGPT with MCP plugin support
+- Cursor IDE, Windsurf, Cline
+- n8n (workflow automation)
+- Make.com (low-code automation)
+- Any custom agent built with Anthropic Agent SDK, OpenAI Agents SDK, or LangChain
+
+### MCP Capabilities
+With the right scopes, an MCP-connected AI agent can:
+- List and search Telegram chats
+- Read full message history
+- Look up contact custom fields (stage, ARR, tags)
+- Leave internal comments on chats
+- Create and update tickets with priority and assignee
+- Fire broadcasts from saved templates
+- Add or remove tags
+- Update custom field values
+
+### MCP Security
+- OAuth with PKCE - no secrets stored
+- Workspace-scoped permissions with granular scopes
+- Configurable TTL (default 90 days), optional IP allowlists
+- Instant revocation from either side
+- Full audit logging (key prefix, source IP, user agent)
+- A key from workspace A cannot access workspace B
+
+### MCP Server URL
+```
+https://mcp.entergram.com/mcp
+```
+
+### MCP vs Telegram Bot API
+Telegram's Bot API only works with bot accounts - limited to bot-scoped conversations. Entergram's MCP server works with personal Telegram accounts, giving AI agents access to real chats, real contacts, and real CRM data. Use MCP when AI is the consumer; use the Bot API for public-facing automated bots.
+
+### Common MCP Questions
+- **Does Telegram have MCP?** No - Telegram doesn't natively support MCP. Entergram provides the only MCP server for personal Telegram accounts.
+- **Is there an MCP for personal Telegram accounts?** Yes - Entergram is the only MCP server that works with personal accounts, not just bots.
+- **Can I use it with Cursor or Windsurf?** Yes - add the MCP server URL in your IDE's MCP settings and authenticate.
+- **Can I run it in Docker?** No need - the server is fully hosted. Zero infrastructure to manage.
+- **Can I connect it to n8n?** Yes - use n8n's MCP node with the Entergram MCP URL to build visual automations.
+
+### MCP Pages
+- MCP Connector (setup & overview): https://www.entergram.com/mcp
+- MCP Server (product deep-dive): https://www.entergram.com/telegram-mcp
+- MCP Setup Guide: https://www.entergram.com/help-center/security-developers/claude-mcp-connector
+
+## REST API
+
+Full REST API for programmatic access to Telegram CRM data:
+
+- Endpoints: chats, messages, contacts, custom_fields, tickets, broadcasts, workspace, members, accounts
+- Authentication: Workspace-scoped API keys with configurable TTL and IP allowlists
+- Same scope model as MCP server and Make.com integration
+- Documentation: https://api.entergram.com/docs
+- Product page: https://www.entergram.com/telegram-crm/telegram-crm-api
+
+## Blog - Key Articles
+
+- Connect Your Personal Telegram to Claude, ChatGPT & More via MCP: https://www.entergram.com/blog/connect-entergram-to-claude-mcp
+- Telegram MCP vs Telegram Bot API - When to Use Which: https://www.entergram.com/blog/telegram-mcp-vs-bot-api
+- How to Automate Telegram Inbox Triage with Claude and MCP: https://www.entergram.com/blog/telegram-mcp-ai-inbox-triage
+- How to Connect Telegram to n8n with MCP: https://www.entergram.com/blog/n8n-telegram-mcp-integration
+- Best Telegram CRM in 2026 - What to Look For: https://www.entergram.com/blog/best-telegram-crm
+- Make.com + Telegram CRM Automations: https://www.entergram.com/blog/make-com-telegram-crm-automations
+- Telegram CRM vs HubSpot, Salesforce, Pipedrive: https://www.entergram.com/blog/telegram-crm-vs-hubspot-salesforce-pipedrive
+
+## Core Pages
+
+- Homepage: https://www.entergram.com
+- All Features: https://www.entergram.com/telegram-crm
+- Pricing: https://www.entergram.com/pricing
+- MCP Connector: https://www.entergram.com/mcp
+- MCP Server (product): https://www.entergram.com/telegram-mcp
+- API (product): https://www.entergram.com/telegram-crm/telegram-crm-api
+- Multi-Account Inbox: https://www.entergram.com/telegram-crm/telegram-crm-multi-account
+- Broadcast Tool: https://www.entergram.com/telegram-crm/telegram-broadcast-tool
+- Telegram Support (overview): https://www.entergram.com/telegram-support
+- Telegram Ticketing System (tickets from messages): https://www.entergram.com/telegram-support/telegram-ticketing-system
+- Kanban Board for Tickets: https://www.entergram.com/telegram-support/telegram-kanban-board
+- Tickets Linked to Group Chats: https://www.entergram.com/telegram-support/telegram-group-chat-tickets
+- Assign Tickets to Agents: https://www.entergram.com/telegram-support/telegram-ticket-assignment
+- Ticket SLAs & Breach Alerts: https://www.entergram.com/telegram-support/telegram-ticket-sla
+- Telegram Analytics (overview): https://www.entergram.com/telegram-analytics
+- Response Time & SLA Analytics: https://www.entergram.com/telegram-analytics/telegram-response-time
+- Activity Heatmap: https://www.entergram.com/telegram-analytics/telegram-activity-heatmap
+- Message Volume Analytics: https://www.entergram.com/telegram-analytics/telegram-message-volume
+- Media & Content Analytics: https://www.entergram.com/telegram-analytics/telegram-media-analytics
+- Chat Analytics: https://www.entergram.com/telegram-analytics/telegram-chat-analytics
+- Custom Columns: https://www.entergram.com/telegram-crm#custom-columns
+- Team Workspaces: https://www.entergram.com/telegram-crm/telegram-crm-workspaces
+- Proxied Accounts: https://www.entergram.com/telegram-crm/free-telegram-proxy
+- Lead Management: https://www.entergram.com/telegram-crm/telegram-crm-lead-management
+- Mobile App: https://www.entergram.com/mobile-app
+- Integrations: https://www.entergram.com/integrations
+- Security: https://www.entergram.com/security
+- Changelog: https://www.entergram.com/changelog
+- Blog: https://www.entergram.com/blog
+- Help Center: https://www.entergram.com/help-center
+- API Docs: https://api.entergram.com/docs
+
+## Comparisons
+
+- Entergram vs Zendesk: https://www.entergram.com/compare/zendesk-vs-entergram
+- Entergram vs Intercom: https://www.entergram.com/compare/intercom-vs-entergram
+- Entergram vs HubSpot: https://www.entergram.com/compare/hubspot-vs-entergram
+- Entergram vs Freshdesk: https://www.entergram.com/compare/freshdesk-vs-entergram
+- Entergram vs ManyChat: https://www.entergram.com/compare/manychat-vs-entergram
+
+## Company
+
+- Founded: 2025
+- Website: https://www.entergram.com
+- App: https://app.entergram.com
+- Contact: hello@entergram.com
+- Twitter/X: https://x.com/hello_entergram
+- LinkedIn: https://www.linkedin.com/company/entergram
+
+## Languages
+
+Entergram is available in English, Spanish, French, German, Turkish, Russian, and Simplified Chinese.
+
+## Full Content
+
+- Complete text of all product pages and blog posts (English): https://www.entergram.com/llms-full.txt
+- Spanish: https://www.entergram.com/llms-full.es.txt
+- French: https://www.entergram.com/llms-full.fr.txt
+- German: https://www.entergram.com/llms-full.de.txt
+- Russian: https://www.entergram.com/llms-full.ru.txt
+- Turkish: https://www.entergram.com/llms-full.tr.txt
+- Simplified Chinese: https://www.entergram.com/llms-full.zh-cn.txt

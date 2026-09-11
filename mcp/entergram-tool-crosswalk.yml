@@ -1,0 +1,82 @@
+generated: '2026-09-11'
+method: derived
+source: >-
+  Derived by binding the MCP capability list (llms.txt + OAuth protected-resource scopes) to backing
+  OpenAPI operationIds in openapi/entergram-openapi.json. The live MCP tools/list is OAuth-gated (401),
+  so per-tool inputSchemas were not introspected; bindings are by name/semantics with honest confidence.
+surfaces:
+  openapi:
+    path: openapi/entergram-openapi.json
+    host: https://api.entergram.com
+    auth: X-API-Key
+    operations: 81
+  mcp:
+    url: https://mcp.entergram.com/mcp
+    auth: oauth2 (gated)
+    tools_introspected: false
+crosswalk:
+- tool: list/search chats
+  category: chats
+  rest: [list-chats, get-chat, list-workspace-chats, list-live-chats]
+  binding: name+semantics
+  confidence: medium
+- tool: read message history
+  category: messages
+  rest: [list-chat-messages, get-chat-message]
+  binding: name+semantics
+  confidence: high
+- tool: look up contact custom fields
+  category: contacts
+  rest: [list-contacts, get-contact, get-chat-custom-fields, get-personal-chat-custom-fields]
+  binding: name+semantics
+  confidence: medium
+- tool: leave internal chat comments
+  category: chats
+  rest: [create-chat-comment, list-chat-comments, update-chat-comment, delete-chat-comment]
+  binding: name+semantics
+  confidence: high
+- tool: create and update tickets
+  category: tickets
+  rest: [create-ticket, update-ticket, get-ticket, list-tickets, create-ticket-comment]
+  binding: name+semantics
+  confidence: high
+- tool: fire broadcasts from saved templates
+  category: messages
+  rest: [create-chat-message, create-chat-media-message]
+  binding: name+semantics
+  confidence: low
+  note: >-
+    Broadcast/template send is described in llms.txt as an MCP capability; the REST spec exposes
+    single-message send but no dedicated broadcast/template operation, so this maps loosely.
+- tool: add or remove tags / update custom field values
+  category: custom-fields
+  rest: [patch-chat-custom-fields, patch-personal-chat-custom-fields, update-custom-column-option]
+  binding: name+semantics
+  confidence: medium
+mcp_only:
+- tool: fire broadcasts from saved templates
+  reason: >-
+    Saved-template broadcast has no dedicated public REST operation; the MCP tool likely composes
+    message sends over a segment server-side.
+rest_only:
+- reason: >-
+    The REST API exposes a much larger surface than the MCP capability summary — workspace/members,
+    accounts, groups, custom-column and ticket-custom-column CRUD, webhook management + deliveries,
+    media upload tickets, message reactions/forwarding, Make.com webhook integration and resumable
+    events — none of which are enumerated as MCP tools in llms.txt.
+  operations:
+  - get-workspace, get-me, check-workspace-access
+  - list-accounts, list-workspace-members, get-workspace-member
+  - list-groups, get-group, list-group-members
+  - list-custom-columns, create-custom-column, update-custom-column, delete-custom-column
+  - list-webhooks, create-webhook, update-webhook, delete-webhook, rotate-webhook-secret, test-webhook, list-webhook-deliveries
+  - create-chat-media-upload-tickets, upload-chat-media-bytes, forward-chat-messages, set-chat-message-reactions
+  - attachMakeWebhook, detachMakeWebhook, claimMakeWebhookEvent
+  - list-events
+coverage:
+  mcp_tools: 7
+  rest_operations: 81
+  mapped_high_confidence: 3
+  mapped_medium_confidence: 3
+  mapped_low_confidence: 1
+  mcp_only: 1

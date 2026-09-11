@@ -1,0 +1,61 @@
+generated: '2026-09-11'
+method: searched
+source: live probes of /.well-known/ paths across all known hosts
+note: >-
+  security.txt (RFC 9116) is served identically on entergram.com, www.entergram.com and
+  api.entergram.com. The MCP host mcp.entergram.com serves RFC 8414 OAuth authorization-server
+  metadata and RFC 9728 protected-resource metadata (the auth server itself is app.entergram.com).
+  No api-catalog, apis.json, ai-plugin.json, openid-configuration or agent card was found on any host.
+hosts:
+- host: https://entergram.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: entergram-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+  - path: /.well-known/api-catalog
+    status: 404
+  - path: /.well-known/ai-plugin.json
+    status: 404
+  - path: /apis.json
+    status: 404
+  - path: /.well-known/apis.json
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404
+- host: https://www.entergram.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: entergram-security.txt
+- host: https://api.entergram.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 200
+    file: entergram-security.txt
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /openapi.json
+    status: 200
+    note: OpenAPI 3.1.0 contract (saved to openapi/entergram-openapi.json)
+- host: https://mcp.entergram.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: entergram-oauth-authorization-server.json
+  - path: /.well-known/oauth-protected-resource
+    status: 200
+    file: entergram-oauth-protected-resource.json
+  - path: /.well-known/openid-configuration
+    status: 404
+  - path: /.well-known/agent-card.json
+    status: 404
+  - path: /.well-known/agent.json
+    status: 404

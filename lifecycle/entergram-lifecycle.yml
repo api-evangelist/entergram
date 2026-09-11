@@ -1,0 +1,20 @@
+generated: '2026-09-11'
+method: searched
+source: https://entergram.com/llms.txt
+versioning:
+  scheme: URI path prefix
+  current: v1
+  base: https://api.entergram.com/v1
+status_page:
+  url: https://status.entergram.com
+  status: 200
+  verified: probed
+changelog:
+  url: https://www.entergram.com/changelog
+  detail: changelog/entergram-changelog.yml
+deprecation:
+  policy_published: false
+  deprecated_operations: []
+  note: >-
+    No deprecation/sunset policy page was found, and no operation in the OpenAPI carries
+    deprecated: true. RFC 8594 Sunset/Deprecation headers are not documented.

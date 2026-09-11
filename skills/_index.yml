@@ -1,0 +1,12 @@
+generated: '2026-09-11'
+method: generated
+source: openapi/entergram-openapi.json
+skills:
+- name: entergram-triage-chat-to-ticket
+  file: entergram-triage-chat-to-ticket.md
+  description: Triage an active Telegram chat into a tracked Entergram ticket, comment and assign it.
+  operations: [list-chats, get-chat, list-chat-messages, create-chat-comment, create-ticket, update-ticket, list-chat-linked-tickets]
+- name: entergram-send-telegram-message
+  file: entergram-send-telegram-message.md
+  description: Send a Telegram text or media message through Entergram with idempotent retries.
+  operations: [list-accounts, list-chats, create-chat-message, create-chat-media-upload-tickets, upload-chat-media-bytes, create-chat-media-message, get-chat-message]

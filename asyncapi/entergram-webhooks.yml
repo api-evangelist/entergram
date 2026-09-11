@@ -1,0 +1,39 @@
+generated: '2026-09-11'
+method: derived
+source: openapi/entergram-openapi.json
+type: Webhooks
+note: >-
+  Entergram exposes a first-party webhook surface for Telegram message events. Endpoints are managed
+  over REST (create/list/get/update/delete), each with a signing secret that can be rotated, an
+  incoming/outgoing direction filter, and a delivery log with retry/attempt tracking. No standalone
+  AsyncAPI document is published, so this captures the webhook catalog directly. There is also a
+  Make.com webhook integration surface (attach/detach/claim).
+transport: HTTPS POST to a subscriber-supplied url
+signing:
+  mechanism: per-endpoint signing secret
+  rotation_op: rotate-webhook-secret
+event_types:
+- name: message.incoming
+  source: MessageEvent.direction = incoming
+- name: message.outgoing
+  source: MessageEvent.direction = outgoing
+subscription:
+  fields: [url, direction, enabled]
+  direction_values: [incoming, outgoing]
+delivery:
+  tracking_op: list-webhook-deliveries
+  fields: [status, attempts, deliveredAt, lastStatusCode, lastErrorCode, nextAttemptAt]
+  test_op: test-webhook
+management_operations:
+- list-webhooks
+- create-webhook
+- get-webhook
+- update-webhook
+- delete-webhook
+- rotate-webhook-secret
+- test-webhook
+- list-webhook-deliveries
+make_integration:
+- attachMakeWebhook
+- detachMakeWebhook
+- claimMakeWebhookEvent

@@ -1,0 +1,13 @@
+generated: '2026-09-11'
+method: derived
+source: openapi/entergram-openapi.json
+note: >-
+  The OpenAPI declares HTTP 429 responses on 13 operations with a Retry-After response header, but does
+  not publish numeric per-window limits or RateLimit-* headers. No public rate-limit reference page was
+  found on the docs host. limit_count is 0 because no explicit numeric limit is documented; the runtime
+  signal (429 + Retry-After) is real and captured.
+status_on_exhaustion: 429
+response_headers:
+- Retry-After
+limit_count: 0
+limits: []

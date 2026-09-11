@@ -1,0 +1,60 @@
+generated: '2026-09-11'
+method: derived
+source: openapi/entergram-openapi.json
+authentication:
+  rest: X-API-Key header (workspace-scoped key from Settings > Developers)
+  mcp: OAuth2 authorization_code + PKCE (see authentication/, scopes/)
+pagination:
+  style: cursor + offset
+  params:
+    cursor: [after, before, before_message_id]
+    offset: [limit, offset]
+    incremental: [updated_since]
+  note: >-
+    List endpoints accept cursor-style after/before (and before_message_id for messages) alongside
+    limit/offset; several support updated_since for incremental sync.
+filtering:
+  common_query_params: [account_id, chat_type, status, priority, role, search, assigned_to_id, created_by_id, member_id, thread_id, direction]
+error_envelope:
+  format: rfc9457
+  media_type: application/problem+json
+  schema: ErrorModel
+  detail: errors/entergram-problem-types.yml
+rate_limit_signaling:
+  status_on_exhaustion: 429
+  headers: [Retry-After]
+  detail: rate-limits/entergram-rate-limits.yml
+versioning:
+  scheme: URI path prefix
+  current: v1
+  base: https://api.entergram.com/v1
+idempotency:
+  coverage: partial
+  mechanism: >-
+    A client-supplied idempotencyKey field in the request body deduplicates retries. It is not a
+    cross-cutting Idempotency-Key header; it applies only to the named message/command creation
+    operations below.
+  scope:
+  - create-chat-message
+  - create-chat-media-message
+  - create-chat-media-upload-tickets
+  - run-live-chat-command
+reversibility:
+  grade: documented
+  note: >-
+    Mutations are reversible via explicit delete/edit operations, but no time-bounded reversal window
+    is documented (this is not a payments API — there is no cancel/refund/void with a stated window).
+  operations:
+  - action: delete a sent message
+    reverse: delete-chat-message
+  - action: edit a sent message
+    reverse: update-chat-message
+  - action: delete a ticket
+    reverse: delete-ticket
+  - action: delete a chat/ticket comment
+    reverse: [delete-chat-comment, delete-ticket-comment]
+  - action: delete a webhook endpoint
+    reverse: delete-webhook
+  - action: delete a custom column / option
+    reverse: [delete-custom-column, delete-custom-column-option, delete-ticket-custom-column, delete-ticket-custom-column-option]
+dry_run_mode: na

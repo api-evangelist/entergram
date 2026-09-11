@@ -1,0 +1,64 @@
+generated: '2026-09-11'
+method: searched
+source: https://entergram.com/llms.txt
+name: Entergram Telegram MCP Server
+description: >-
+  Hosted Model Context Protocol server for personal Telegram accounts. Connects MCP-compatible
+  AI agents (Claude, ChatGPT, Cursor, Windsurf, Cline, n8n, Make.com) to a shared Entergram
+  Telegram CRM workspace so agents can read chats and message history, look up contact custom
+  fields, leave internal chat comments, create and update tickets, fire broadcasts from saved
+  templates, and update tags / custom-field values — scoped by workspace-granular OAuth scopes.
+deployment:
+  mode: remote
+  endpoint: https://mcp.entergram.com/mcp
+  auth: oauth
+  verified: probed
+auth:
+  type: oauth2
+  flow: authorization_code + PKCE
+  authorization_server: https://app.entergram.com
+  authorization_endpoint: https://app.entergram.com/oauth/authorize
+  token_endpoint: https://app.entergram.com/oauth/token
+  registration_endpoint: https://app.entergram.com/oauth/register
+  dynamic_client_registration: true
+  protected_resource_metadata: https://mcp.entergram.com/.well-known/oauth-protected-resource
+  authorization_server_metadata: https://mcp.entergram.com/.well-known/oauth-authorization-server
+introspection:
+  tools_list: gated
+  probe:
+    method: POST tools/list
+    url: https://mcp.entergram.com/mcp
+    http_status: 401
+    www_authenticate: 'Bearer error="invalid_token", error_description="Missing Authorization header"'
+  note: >-
+    tools/list requires an authenticated OAuth bearer token, so per-tool inputSchemas could not be
+    introspected anonymously. The tool surface below is taken from the provider-published capability
+    list in llms.txt and the OAuth scopes advertised in the protected-resource document; input
+    schemas require authenticated introspection.
+tools:
+- name: list/search chats
+  scopes: [chats.read]
+- name: read message history
+  scopes: [messages.read]
+- name: look up contact custom fields
+  scopes: [contacts.read, custom_fields.read, chat_custom_fields.read]
+- name: leave internal chat comments
+  scopes: [chats.write]
+- name: create and update tickets
+  scopes: [tickets.read, tickets.write]
+- name: fire broadcasts from saved templates
+  scopes: [messages.write]
+- name: add or remove tags / update custom field values
+  scopes: [custom_fields.write, chat_custom_fields.write]
+docs:
+- https://www.entergram.com/mcp
+- https://www.entergram.com/telegram-mcp
+- https://www.entergram.com/help-center/security-developers/claude-mcp-connector
+supported_clients:
+- Claude Desktop / Claude Code / Claude.ai
+- ChatGPT (MCP)
+- Cursor
+- Windsurf
+- Cline
+- n8n
+- Make.com

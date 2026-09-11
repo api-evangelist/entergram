@@ -1,0 +1,68 @@
+generated: '2026-09-11'
+method: derived
+source: openapi/entergram-openapi.json
+format: rfc9457
+media_type: application/problem+json
+envelope:
+  schema: ErrorModel
+  fields:
+    type: A URI reference identifying the problem type.
+    title: A short, human-readable summary of the problem type.
+    status: The HTTP status code.
+    detail: A human-readable explanation specific to this occurrence.
+    instance: A URI reference identifying this occurrence.
+    errors: Optional list of ErrorDetail items (location, message, value) for field-level validation.
+note: >-
+  All error responses across the 81 operations return application/problem+json (RFC 9457) using the
+  ErrorModel schema, with a nested ErrorDetail array carrying field-level location/message/value.
+problem_types:
+- status: 400
+  title: Bad Request
+  occurrences: 32
+  meaning: Malformed request syntax or invalid parameters.
+- status: 401
+  title: Unauthorized
+  occurrences: 65
+  meaning: Missing or invalid X-API-Key (REST) / OAuth bearer (MCP).
+- status: 403
+  title: Forbidden
+  occurrences: 65
+  meaning: Authenticated actor lacks access to the workspace resource or scope.
+- status: 404
+  title: Not Found
+  occurrences: 53
+  meaning: The addressed resource does not exist or is not visible to the actor.
+- status: 409
+  title: Conflict
+  occurrences: 12
+  meaning: State conflict, e.g. duplicate creation or concurrent modification.
+- status: 413
+  title: Payload Too Large
+  occurrences: 3
+  meaning: Uploaded media exceeds allowed size (media upload endpoints).
+- status: 416
+  title: Range Not Satisfiable
+  occurrences: 1
+  meaning: Invalid Range header on media download.
+- status: 422
+  title: Unprocessable Entity
+  occurrences: 63
+  meaning: Request well-formed but semantically invalid; errors[] carries field-level detail.
+- status: 429
+  title: Too Many Requests
+  occurrences: 13
+  meaning: Rate limit exceeded; Retry-After header indicates when to retry.
+- status: 500
+  title: Internal Server Error
+  occurrences: 65
+- status: 502
+  title: Bad Gateway
+  occurrences: 15
+  meaning: Upstream Telegram / proxy failure.
+- status: 503
+  title: Service Unavailable
+  occurrences: 15
+- status: 504
+  title: Gateway Timeout
+  occurrences: 13
+  meaning: Upstream Telegram / proxy timeout.

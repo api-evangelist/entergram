@@ -1,0 +1,51 @@
+generated: '2026-09-11'
+method: searched
+source: https://mcp.entergram.com/.well-known/oauth-protected-resource
+docs: https://www.entergram.com/help-center/security-developers/claude-mcp-connector
+note: >-
+  Entergram's REST API authenticates with a workspace-scoped X-API-Key header and declares no OAuth
+  flow in its OpenAPI. OAuth2 (authorization_code + PKCE) is used by the hosted MCP server; the scope
+  set below is served verbatim in the RFC 8414 authorization-server metadata and RFC 9728
+  protected-resource metadata at mcp.entergram.com, and echoed in the 401 WWW-Authenticate challenge
+  from the MCP endpoint. Scopes are workspace-granular read/write pairs plus OIDC scopes.
+authorization_server: https://app.entergram.com
+resource: https://mcp.entergram.com/mcp
+scopes:
+- name: workspace.read
+  description: Read workspace metadata.
+- name: members.read
+  description: Read workspace members.
+- name: accounts.read
+  description: Read connected Telegram accounts.
+- name: contacts.read
+  description: Read workspace contacts.
+- name: chats.read
+  description: Read chats and chat metadata.
+- name: chats.write
+  description: Write to chats (e.g. internal comments).
+- name: chat_custom_fields.read
+  description: Read workspace-shared and actor-scoped chat custom field values.
+- name: chat_custom_fields.write
+  description: Write chat custom field values.
+- name: messages.read
+  description: Read Telegram message history.
+- name: messages.write
+  description: Send Telegram messages and fire broadcasts.
+- name: custom_fields.read
+  description: Read custom-column definitions and options.
+- name: custom_fields.write
+  description: Manage custom-column definitions, options and values.
+- name: tickets.read
+  description: Read tickets and ticket comments.
+- name: tickets.write
+  description: Create and update tickets and ticket comments.
+- name: events.read
+  description: Read resumable workspace events.
+- name: offline_access
+  description: Issue refresh tokens for long-lived access (authorization-server metadata only).
+- name: openid
+  description: OIDC authentication.
+- name: profile
+  description: OIDC profile claims.
+- name: email
+  description: OIDC email claim.

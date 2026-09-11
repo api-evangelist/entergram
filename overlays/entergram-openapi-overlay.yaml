@@ -1,0 +1,32 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enrichment overlay for Entergram Public API
+  version: 1.0.0
+extends: ../openapi/entergram-openapi.json
+x-generated: '2026-09-11'
+x-method: generated
+x-source: openapi/entergram-openapi.json + live probes
+actions:
+- target: $.info
+  description: Record the confirmed production base URL (the source spec ships an empty servers[] array).
+  update:
+    x-api-base-url: https://api.entergram.com
+    x-api-base-note: >-
+      All paths are prefixed /v1/ and served from https://api.entergram.com; confirmed live at
+      https://api.entergram.com/openapi.json and https://api.entergram.com/docs (Scalar reference).
+- target: $
+  description: Add the servers block absent from the source spec (non-destructive; source is not mutated).
+  update:
+    servers:
+    - url: https://api.entergram.com
+      description: Production
+- target: $.info
+  description: Cross-reference the enrichment artifacts derived from this contract.
+  update:
+    x-api-evangelist:
+      auth: X-API-Key (REST) + OAuth2 PKCE (MCP server)
+      mcp_server: https://mcp.entergram.com/mcp
+      error_format: rfc9457
+      idempotency: partial (idempotencyKey body field on message/command creation)
+      rate_limit_signal: 429 + Retry-After
+      webhooks: message.incoming / message.outgoing

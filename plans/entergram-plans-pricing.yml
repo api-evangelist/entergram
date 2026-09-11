@@ -1,0 +1,47 @@
+generated: '2026-09-11'
+method: searched
+source: https://www.entergram.com/pricing
+currency: EUR
+billing_note: >-
+  Every seat includes 5 connected Telegram accounts; extra accounts are +€5/month each. Prices shown
+  are per seat. Annual billing saves 2 months versus monthly. A 3-day free trial is offered.
+  API and MCP access are Pro-tier and above.
+plan_count: 3
+plans:
+- name: Basic
+  tagline: Core Telegram CRM
+  price_monthly: 29
+  price_yearly: 290
+  currency: EUR
+  billing_period: [monthly, yearly]
+  included:
+  - 5 Telegram accounts per seat (+€5/mo per extra)
+  - Proxy with dedicated IP
+  - Chat reminders
+  - Data export
+  - Shared workspace / CRM records
+  excludes: [Analytics, API, MCP, Ticketing]
+- name: Pro
+  tagline: Basic + analytics, API and tickets
+  price_monthly: 39
+  price_yearly: 390
+  currency: EUR
+  billing_period: [monthly, yearly]
+  included:
+  - Everything in Basic
+  - Telegram Analytics
+  - REST API access
+  - MCP server access
+  - Ticketing
+  - Make.com integration
+  - GPTs / AI-client access
+- name: Enterprise
+  tagline: Self-hosted for organizations
+  price: custom
+  minimum_seats: 50
+  included:
+  - Everything in Basic + Pro
+  - Self-hosting
+  - Data-region control
+  - Organization-specific deployment
+  contact: https://www.entergram.com/contact

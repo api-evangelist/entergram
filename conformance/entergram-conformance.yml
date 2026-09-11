@@ -1,0 +1,48 @@
+generated: '2026-09-11'
+method: searched
+source:
+- openapi/entergram-openapi.json
+- https://mcp.entergram.com/.well-known/oauth-authorization-server
+- https://www.entergram.com/security
+- https://api.entergram.com/.well-known/security.txt
+conformance:
+- id: rfc9457
+  name: Problem Details for HTTP APIs
+  conforms: true
+  evidence: All error responses use application/problem+json with the ErrorModel schema (openapi/entergram-openapi.json).
+- id: oauth2
+  name: OAuth 2.0 (authorization_code + PKCE)
+  conforms: true
+  evidence: MCP server; authorization-server metadata at mcp.entergram.com/.well-known/oauth-authorization-server.
+- id: rfc8414
+  name: OAuth 2.0 Authorization Server Metadata
+  conforms: true
+  evidence: https://mcp.entergram.com/.well-known/oauth-authorization-server (200).
+- id: rfc9728
+  name: OAuth 2.0 Protected Resource Metadata
+  conforms: true
+  evidence: https://mcp.entergram.com/.well-known/oauth-protected-resource (200).
+- id: oidc
+  name: OpenID Connect (openid/profile/email scopes)
+  conforms: true
+  evidence: openid/profile/email scopes advertised in the authorization-server metadata.
+- id: rfc9116
+  name: security.txt
+  conforms: true
+  evidence: https://api.entergram.com/.well-known/security.txt (200).
+- id: mcp
+  name: Model Context Protocol (hosted server)
+  conforms: true
+  evidence: JSON-RPC MCP endpoint at https://mcp.entergram.com/mcp (OAuth-gated tools/list, 401 challenge).
+- id: gdpr
+  name: GDPR alignment
+  conforms: true
+  evidence: 'Security page states the platform is aligned with GDPR; AES-256-GCM at rest, TLS in transit, dedicated proxy per account (self-attested, not third-party certified).'
+- id: pagination
+  name: Cursor + offset pagination
+  conforms: true
+  evidence: after/before/limit/offset and updated_since query params across list endpoints.
+domain_standard: none
+domain_standard_note: >-
+  Telegram CRM / team-messaging has no cross-industry machine-readable domain standard to declare; this
+  is reward-only, so no conformance is asserted where none applies.

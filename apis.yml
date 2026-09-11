@@ -1,6 +1,16 @@
 name: Entergram
-description: Entergram messaging/notification API.
+description: >-
+  Entergram is a CRM built specifically for Telegram. It connects personal Telegram accounts (not bots)
+  into a shared team workspace where sales, support, community and trading teams manage conversations at
+  scale — a multi-account inbox, a CRM table and Kanban pipeline, custom columns and labels, broadcast
+  messaging, and a ticketing system with assignment, SLA and status tracking. Its developer surface has
+  three parts: a workspace-scoped REST API (X-API-Key) covering accounts, contacts, groups, chats,
+  messages, custom fields, tickets, webhooks and resumable events; a hosted Model Context Protocol (MCP)
+  server for personal Telegram accounts (OAuth2 + PKCE) that lets AI agents read chats, manage tickets
+  and update CRM fields; and outbound webhooks for incoming/outgoing message events, plus a Make.com
+  integration.
 url: https://raw.githubusercontent.com/api-evangelist/entergram/refs/heads/main/apis.yml
+image: https://www.entergram.com/entergram-social-v3.png
 created: '2026-09-11'
 modified: '2026-09-11'
 specificationVersion: '0.21'
@@ -8,23 +18,106 @@ tags:
 - Messaging
 - Notifications
 - Communications
+- CRM
+- Telegram
+- Customer Support
+- Ticketing
+- Sales
+- MCP
+- Webhooks
 apis:
 - name: Entergram API
   humanURL: https://api.entergram.com/v1
   baseURL: https://api.entergram.com
   tags:
   - Messaging
-  - Notifications
   - Communications
+  - CRM
+  - Telegram
+  - Ticketing
   properties:
   - type: OpenAPI
-    url: https://api.entergram.com/openapi.json
+    url: openapi/entergram-openapi.json
+  - type: MCPServer
+    url: mcp/entergram-mcp.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+  - type: Overlay
+    url: overlays/entergram-openapi-overlay.yaml
+  - type: AgentSkill
+    url: skills/_index.yml
 common:
 - type: Website
-  url: https://api.entergram.com/v1
+  url: https://www.entergram.com
+- type: DeveloperPortal
+  url: https://www.entergram.com/telegram-crm/telegram-crm-api
+- type: Documentation
+  url: https://api.entergram.com/docs
+- type: APIReference
+  url: https://api.entergram.com/docs
+- type: Pricing
+  url: https://www.entergram.com/pricing
+- type: Login
+  url: https://app.entergram.com
+- type: Support
+  url: https://www.entergram.com/help-center
+- type: Blog
+  url: https://www.entergram.com/blog
+- type: TermsOfService
+  url: https://www.entergram.com/terms
+- type: PrivacyPolicy
+  url: https://www.entergram.com/privacy
+- type: StatusPage
+  url: https://status.entergram.com
+- type: ChangeLog
+  url: changelog/entergram-changelog.yml
+- type: Lifecycle
+  url: lifecycle/entergram-lifecycle.yml
+- type: Plans
+  url: plans/entergram-plans-pricing.yml
+- type: LLMsTxt
+  url: llms/entergram-llms.txt
+- type: WellKnown
+  url: well-known/entergram-well-known.yml
+- type: SecurityTxt
+  url: well-known/entergram-security.txt
+- type: Conformance
+  url: conformance/entergram-conformance.yml
+- type: Compliance
+  url: security/entergram-trust-center.yml
+- type: TrustCenter
+  url: security/entergram-trust-center.yml
+- type: Security
+  url: security/entergram-vulnerability-disclosure.yml
+- type: VulnerabilityDisclosure
+  url: security/entergram-vulnerability-disclosure.yml
+- type: DomainSecurity
+  url: security/entergram-domain-security.yml
 maintainers:
 - FN: Entergram
+  email: hello@entergram.com
 x-source:
   via: apis.io/add a094... parked no_second_signal; spec at /openapi.json resolves (197KB), control 404s.
   fetched: '2026-09-11'
   note: Pointers probed 200, control 404s, spec real, before writing.
+x-enrichment:
+  date: '2026-09-11'
+  status: enriched
+  artifacts_added: 24
+  pass: local-v3

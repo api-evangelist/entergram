@@ -1,0 +1,77 @@
+generated: '2026-09-11'
+method: derived
+source: openapi/entergram-openapi.json
+note: >-
+  Entity graph derived from OpenAPI component schemas and id-reference fields (143 schemas). Entergram
+  models a Telegram-account-backed CRM: a Workspace owns connected Accounts, Contacts, Chats, Groups,
+  Members, Tickets and Webhooks; Chats carry Messages, Comments and custom-field values; Tickets carry
+  Comments and link to Chats.
+entities:
+- name: Workspace
+  key_ops: [get-workspace, check-workspace-access]
+- name: ConnectedAccount
+  description: A connected personal Telegram account (via canonicalAccountId / telegramUserId / userId).
+  key_ops: [list-accounts]
+- name: Member
+  key_ops: [list-workspace-members, get-workspace-member]
+- name: Contact
+  key_ops: [list-contacts, get-contact, list-contact-shared-groups]
+- name: Group
+  key_ops: [list-groups, get-group, list-group-members]
+- name: Chat
+  key_ops: [list-chats, get-chat, list-workspace-chats, list-live-chats, get-live-chat]
+- name: Message
+  key_ops: [list-chat-messages, get-chat-message, create-chat-message, update-chat-message, delete-chat-message]
+- name: ChatComment
+  key_ops: [list-chat-comments, create-chat-comment, update-chat-comment, delete-chat-comment]
+- name: CustomColumn
+  key_ops: [list-custom-columns, create-custom-column, list-custom-column-options]
+- name: Ticket
+  key_ops: [list-tickets, create-ticket, get-ticket, update-ticket, delete-ticket]
+- name: TicketComment
+  key_ops: [list-ticket-comments, create-ticket-comment]
+- name: Webhook
+  key_ops: [list-webhooks, create-webhook, update-webhook, rotate-webhook-secret, test-webhook, list-webhook-deliveries]
+relationships:
+- from: Chat
+  to: Message
+  type: has_many
+  via: chatId
+- from: Chat
+  to: ChatComment
+  type: has_many
+  via: telegramChatId
+- from: Chat
+  to: Ticket
+  type: has_many
+  via: linked_chat_id (list-chat-linked-tickets)
+- from: Message
+  to: Message
+  type: belongs_to
+  via: replyToMessageId
+- from: Ticket
+  to: TicketComment
+  type: has_many
+  via: ticketId
+- from: Ticket
+  to: Member
+  type: belongs_to
+  via: assignedToId
+- from: Message
+  to: ConnectedAccount
+  type: belongs_to
+  via: accountId / connectedAccountId
+- from: Chat
+  to: Workspace
+  type: belongs_to
+  via: workspaceId
+- from: Contact
+  to: Group
+  type: has_many
+  via: groupId (shared-groups)
+- from: CustomColumn
+  to: CustomColumnOption
+  type: has_many
+  via: column_id
+id_prefixes:
+  note: Telegram-native ids (telegramId, telegramChatId, telegramUserId) plus workspace/account/ticket ids.

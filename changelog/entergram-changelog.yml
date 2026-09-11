@@ -1,0 +1,12 @@
+generated: '2026-09-11'
+method: searched
+source: https://www.entergram.com/changelog
+url: https://www.entergram.com/changelog
+status: 200
+scheme: dated web changelog
+entries: []
+note: >-
+  A dated changelog page is published at https://www.entergram.com/changelog (HTTP 200). Its entries
+  are client-side (JS) rendered — the served HTML contains only navigation/footer chrome — so
+  individual dated entries could not be extracted without a headless browser. Recorded as present;
+  entries[] left empty rather than fabricated.

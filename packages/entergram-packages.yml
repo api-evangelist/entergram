@@ -1,0 +1,13 @@
+generated: '2026-09-11'
+method: searched
+source:
+- https://registry.npmjs.org/entergram
+- https://pypi.org/pypi/entergram/json
+- https://api.github.com/orgs/entergram
+- https://entergram.com/llms.txt
+note: >-
+  No first-party client SDK was found. npm (entergram, @entergram/sdk), PyPI (entergram) and a GitHub
+  org (github.com/entergram) all return 404. Entergram publishes a REST API (X-API-Key) and a hosted
+  MCP server but ships no packaged client library; integration is via raw HTTP, the MCP server, or the
+  Make.com integration. Recorded as an honest absence.
+packages: []

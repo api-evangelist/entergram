@@ -1,0 +1,16 @@
+generated: '2026-09-11'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + OpenAPI hosts
+hosts:
+- host: api.entergram.com
+  https: true
+  tls_version: TLSv1.3
+  cert_expires: Nov  2 15:17:44 2026 GMT
+  hsts: null
+domains:
+- domain: entergram.com
+  dnssec: true
+  caa: []
+  spf: true
+  dmarc: true
+  dmarc_policy: reject

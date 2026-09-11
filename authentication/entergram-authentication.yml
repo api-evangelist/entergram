@@ -1,0 +1,38 @@
+generated: '2026-09-11'
+method: derived
+source: openapi/entergram-openapi.json
+summary:
+  types:
+  - apiKey
+  - oauth2
+  api_key_in:
+  - header
+  note: >-
+    The REST API (api.entergram.com) authenticates with a workspace-scoped X-API-Key header. The
+    hosted MCP server (mcp.entergram.com) authenticates with OAuth2 authorization_code + PKCE against
+    app.entergram.com, with dynamic client registration. The OAuth profile was captured by probing
+    the RFC 8414 / RFC 9728 discovery documents, not from the REST OpenAPI (which declares apiKey only).
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: X-API-Key
+  description: Workspace-scoped PRO API key created in Entergram Settings > Developers.
+  sources:
+  - openapi/entergram-openapi.json
+- name: McpOAuth
+  type: oauth2
+  flow: authorization_code
+  pkce: true
+  authorization_server: https://app.entergram.com
+  authorization_endpoint: https://app.entergram.com/oauth/authorize
+  token_endpoint: https://app.entergram.com/oauth/token
+  registration_endpoint: https://app.entergram.com/oauth/register
+  jwks_uri: https://app.entergram.com/oauth/jwks.json
+  applies_to: MCP server (mcp.entergram.com/mcp)
+  description: >-
+    OAuth2 with PKCE and dynamic client registration for the Entergram MCP server. Bearer token in the
+    Authorization header. Scopes documented in scopes/entergram-scopes.yml.
+  sources:
+  - well-known/entergram-oauth-authorization-server.json
+  - well-known/entergram-oauth-protected-resource.json
