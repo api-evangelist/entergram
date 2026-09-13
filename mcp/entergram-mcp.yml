@@ -2,17 +2,21 @@ generated: '2026-09-11'
 method: searched
 source: https://entergram.com/llms.txt
 name: Entergram Telegram MCP Server
-description: >-
-  Hosted Model Context Protocol server for personal Telegram accounts. Connects MCP-compatible
-  AI agents (Claude, ChatGPT, Cursor, Windsurf, Cline, n8n, Make.com) to a shared Entergram
-  Telegram CRM workspace so agents can read chats and message history, look up contact custom
-  fields, leave internal chat comments, create and update tickets, fire broadcasts from saved
-  templates, and update tags / custom-field values — scoped by workspace-granular OAuth scopes.
+description: Hosted Model Context Protocol server for personal Telegram accounts. Connects MCP-compatible
+  AI agents (Claude, ChatGPT, Cursor, Windsurf, Cline, n8n, Make.com) to a shared Entergram Telegram CRM
+  workspace so agents can read chats and message history, look up contact custom fields, leave internal
+  chat comments, create and update tickets, fire broadcasts from saved templates, and update tags / custom-field
+  values — scoped by workspace-granular OAuth scopes.
 deployment:
   mode: remote
   endpoint: https://mcp.entergram.com/mcp
   auth: oauth
   verified: probed
+  probe_prior: (never probed)
+  probe: gated
+  probe_why: RFC 9728 challenge on the MCP path only
+  checked: '2026-09-11'
+  source: claimed-backlog re-probe 2026-09-11
 auth:
   type: oauth2
   flow: authorization_code + PKCE
@@ -29,27 +33,37 @@ introspection:
     method: POST tools/list
     url: https://mcp.entergram.com/mcp
     http_status: 401
-    www_authenticate: 'Bearer error="invalid_token", error_description="Missing Authorization header"'
-  note: >-
-    tools/list requires an authenticated OAuth bearer token, so per-tool inputSchemas could not be
-    introspected anonymously. The tool surface below is taken from the provider-published capability
-    list in llms.txt and the OAuth scopes advertised in the protected-resource document; input
-    schemas require authenticated introspection.
+    www_authenticate: Bearer error="invalid_token", error_description="Missing Authorization header"
+  note: tools/list requires an authenticated OAuth bearer token, so per-tool inputSchemas could not be
+    introspected anonymously. The tool surface below is taken from the provider-published capability list
+    in llms.txt and the OAuth scopes advertised in the protected-resource document; input schemas require
+    authenticated introspection.
 tools:
 - name: list/search chats
-  scopes: [chats.read]
+  scopes:
+  - chats.read
 - name: read message history
-  scopes: [messages.read]
+  scopes:
+  - messages.read
 - name: look up contact custom fields
-  scopes: [contacts.read, custom_fields.read, chat_custom_fields.read]
+  scopes:
+  - contacts.read
+  - custom_fields.read
+  - chat_custom_fields.read
 - name: leave internal chat comments
-  scopes: [chats.write]
+  scopes:
+  - chats.write
 - name: create and update tickets
-  scopes: [tickets.read, tickets.write]
+  scopes:
+  - tickets.read
+  - tickets.write
 - name: fire broadcasts from saved templates
-  scopes: [messages.write]
+  scopes:
+  - messages.write
 - name: add or remove tags / update custom field values
-  scopes: [custom_fields.write, chat_custom_fields.write]
+  scopes:
+  - custom_fields.write
+  - chat_custom_fields.write
 docs:
 - https://www.entergram.com/mcp
 - https://www.entergram.com/telegram-mcp
