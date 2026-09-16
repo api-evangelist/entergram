@@ -16,6 +16,17 @@ modified: '2026-09-11'
 specificationVersion: '0.21'
 tags:
 - Messaging
+- Notification
+- Communications
+- CRM
+- Telegram
+- Customer-Support
+- Ticketing
+- Sales
+- MCP
+- Webhook
+tags_raw:
+- Messaging
 - Notifications
 - Communications
 - CRM
@@ -26,20 +37,16 @@ tags:
 - MCP
 - Webhooks
 apis:
-- name: Entergram API
+- aid: entergram:entergram-accounts-api
+  name: Entergram Accounts API
+  description: Connected account inventory.
   humanURL: https://api.entergram.com/v1
   baseURL: https://api.entergram.com
   tags:
-  - Messaging
-  - Communications
-  - CRM
-  - Telegram
-  - Ticketing
+  - Accounts
   properties:
   - type: OpenAPI
-    url: openapi/entergram-openapi.json
-  - type: MCPServer
-    url: mcp/entergram-mcp.yml
+    url: openapi/entergram-accounts-api-openapi.yml
   - type: ToolCrosswalk
     url: mcp/entergram-tool-crosswalk.yml
   - type: Webhooks
@@ -58,11 +65,444 @@ apis:
     url: data-model/entergram-data-model.yml
   - type: RateLimits
     url: rate-limits/entergram-rate-limits.yml
-  - type: Overlay
-    url: overlays/entergram-openapi-overlay.yaml
-  - type: AgentSkill
-    url: skills/_index.yml
+- aid: entergram:entergram-chat-commands-api
+  name: Entergram Chat Commands API
+  description: >-
+    Telegram chat creation and group/channel management commands scoped to an explicit connected account.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Chat Commands
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-chat-commands-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-chats-api
+  name: Entergram Chats API
+  description: >-
+    Actor-scoped chats, linked tickets, and internal chat comments keyed by Telegram chat ID.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Chats
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-chats-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-contacts-api
+  name: Entergram Contacts API
+  description: >-
+    Workspace contacts deduplicated across connected accounts, including shared groups and attribution.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Contacts
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-contacts-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-custom-fields-api
+  name: Entergram Custom Fields API
+  description: >-
+    Workspace chat custom columns, ticket custom columns, selectable options, and workspace-shared chat
+    custom field values.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Custom Fields
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-custom-fields-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-events-api
+  name: Entergram Events API
+  description: Metadata-only, cursor-based workspace event stream for resumable integrations.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-events-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-groups-api
+  name: Entergram Groups API
+  description: >-
+    Workspace groups derived from shared-contact graph, with invite-link and member metadata when cached.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Groups
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-groups-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-live-chats-api
+  name: Entergram Live Chats API
+  description: >-
+    Actor-owned live Telegram transport view used for current chat discovery before message operations.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Live Chats
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-live-chats-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-make-webhooks-api
+  name: Entergram Make webhooks API
+  description: The Make webhooks API from Entergram — 2 operation(s) for make webhooks.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Make webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-make-webhooks-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-members-api
+  name: Entergram Members API
+  description: Safe workspace member identity, role, permissions, and seat assignment metadata.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Members
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-members-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-messages-api
+  name: Entergram Messages API
+  description: >-
+    Telegram message history and message write operations scoped to an explicit account and chat.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Messages
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-messages-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-system-api
+  name: Entergram System API
+  description: Authentication and runtime context.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - System
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-system-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-tickets-api
+  name: Entergram Tickets API
+  description: Workspace ticket inventory, ticket detail, comments, and linked chat filters.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Tickets
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-tickets-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-webhooks-api
+  name: Entergram Webhooks API
+  description: >-
+    API-only webhook endpoint configuration, secret rotation, tests, and sanitized delivery status.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-webhooks-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-workspace-api
+  name: Entergram Workspace API
+  description: Workspace metadata and feature access.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Workspace
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-workspace-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
+- aid: entergram:entergram-workspace-chats-api
+  name: Entergram Workspace Chats API
+  description: >-
+    Shared CRM chat view from frontend DB, deduplicated across workspace accounts and suited for metadata,
+    custom fields, and ticket workflows.
+  humanURL: https://api.entergram.com/v1
+  baseURL: https://api.entergram.com
+  tags:
+  - Workspace Chats
+  properties:
+  - type: OpenAPI
+    url: openapi/entergram-workspace-chats-api-openapi.yml
+  - type: ToolCrosswalk
+    url: mcp/entergram-tool-crosswalk.yml
+  - type: Webhooks
+    url: asyncapi/entergram-webhooks.yml
+  - type: Authentication
+    url: authentication/entergram-authentication.yml
+  - type: OAuthScopes
+    url: scopes/entergram-scopes.yml
+  - type: ErrorCatalog
+    url: errors/entergram-problem-types.yml
+  - type: Conventions
+    url: conventions/entergram-conventions.yml
+  - type: Idempotency
+    url: conventions/entergram-conventions.yml
+  - type: DataModel
+    url: data-model/entergram-data-model.yml
+  - type: RateLimits
+    url: rate-limits/entergram-rate-limits.yml
 common:
+- type: MCPServer
+  url: mcp/entergram-mcp.yml
+- type: Overlay
+  url: overlays/entergram-openapi-overlay.yaml
+- type: AgentSkill
+  url: skills/_index.yml
 - type: Website
   url: https://www.entergram.com
 - type: DeveloperPortal
