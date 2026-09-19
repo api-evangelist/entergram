@@ -43,6 +43,8 @@ apis:
   humanURL: https://api.entergram.com/v1
   baseURL: https://api.entergram.com
   tags:
+  - Account
+  tags_raw:
   - Accounts
   properties:
   - type: OpenAPI
@@ -188,6 +190,8 @@ apis:
   humanURL: https://api.entergram.com/v1
   baseURL: https://api.entergram.com
   tags:
+  - Event
+  tags_raw:
   - Events
   properties:
   - type: OpenAPI
@@ -217,6 +221,8 @@ apis:
   humanURL: https://api.entergram.com/v1
   baseURL: https://api.entergram.com
   tags:
+  - Group
+  tags_raw:
   - Groups
   properties:
   - type: OpenAPI
@@ -331,6 +337,8 @@ apis:
   humanURL: https://api.entergram.com/v1
   baseURL: https://api.entergram.com
   tags:
+  - Message
+  tags_raw:
   - Messages
   properties:
   - type: OpenAPI
@@ -416,6 +424,8 @@ apis:
   humanURL: https://api.entergram.com/v1
   baseURL: https://api.entergram.com
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
