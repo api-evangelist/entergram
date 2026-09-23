@@ -1,0 +1,516 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: hello@entergram.com
+    name: Entergram
+  description: Secure, workspace-scoped API for Entergram PRO. Use API keys created in Settings > Developers to access workspace metadata, accounts, contacts, groups, chats, custom fields, and tickets through a stable, documented contract.
+  title: Entergram Public Webhooks API
+  version: v1
+security:
+- ApiKeyAuth: []
+tags:
+- description: API-only webhook endpoint configuration, secret rotation, tests, and sanitized delivery status.
+  name: Webhooks
+paths:
+  /v1/webhook-deliveries:
+    get:
+      description: Returns delivery metadata and bounded error codes. Response bodies and signing secrets are never exposed.
+      operationId: list-webhook-deliveries
+      parameters:
+      - explode: false
+        in: query
+        name: webhook_id
+        schema:
+          type: string
+      - description: 'Optional delivery state: pending, publishing_retry, queued, delivering, retrying, delivered, or failed.'
+        explode: false
+        in: query
+        name: status
+        schema:
+          description: 'Optional delivery state: pending, publishing_retry, queued, delivering, retrying, delivered, or failed.'
+          type: string
+      - explode: false
+        in: query
+        name: limit
+        schema:
+          default: 50
+          format: int64
+          maximum: 200
+          minimum: 1
+          type: integer
+      - description: Return delivery cursors below this value.
+        explode: false
+        in: query
+        name: before
+        schema:
+          default: 0
+          description: Return delivery cursors below this value.
+          format: int64
+          minimum: 0
+          type: integer
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListDeliveriesOutputBody'
+          description: OK
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Error
+      summary: List sanitized webhook delivery status
+      tags:
+      - Webhooks
+      x-required-scopes:
+      - webhooks.read
+  /v1/webhooks:
+    get:
+      operationId: list-webhooks
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListWebhooksOutputBody'
+          description: OK
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Error
+      summary: List webhook endpoints
+      tags:
+      - Webhooks
+      x-required-scopes:
+      - webhooks.read
+    post:
+      description: The signing secret is returned once and is never available from read endpoints.
+      operationId: create-webhook
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookBody'
+        required: true
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedWebhookOutputBody'
+          description: Created
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Error
+      summary: Create a webhook endpoint
+      tags:
+      - Webhooks
+      x-required-scopes:
+      - webhooks.write
+  /v1/webhooks/{webhook_id}:
+    delete:
+      operationId: delete-webhook
+      parameters:
+      - in: path
+        name: webhook_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '204':
+          description: No Content
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Error
+      summary: Delete a webhook endpoint
+      tags:
+      - Webhooks
+      x-required-scopes:
+      - webhooks.write
+    get:
+      operationId: get-webhook
+      parameters:
+      - in: path
+        name: webhook_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookOutputBody'
+          description: OK
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Error
+      summary: Get a webhook endpoint
+      tags:
+      - Webhooks
+      x-required-scopes:
+      - webhooks.read
+    put:
+      operationId: update-webhook
+      parameters:
+      - in: path
+        name: webhook_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookBody'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookOutputBody'
+          description: OK
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Error
+      summary: Replace webhook endpoint settings
+      tags:
+      - Webhooks
+      x-required-scopes:
+      - webhooks.write
+  /v1/webhooks/{webhook_id}/rotate-secret:
+    post:
+      description: Immediately replaces the previous secret and returns the new value once.
+      operationId: rotate-webhook-secret
+      parameters:
+      - in: path
+        name: webhook_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedWebhookOutputBody'
+          description: OK
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Error
+      summary: Rotate a webhook signing secret
+      tags:
+      - Webhooks
+      x-required-scopes:
+      - webhooks.write
+  /v1/webhooks/{webhook_id}/test:
+    post:
+      operationId: test-webhook
+      parameters:
+      - in: path
+        name: webhook_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '202':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeliveryOutputBody'
+          description: Accepted
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Error
+      summary: Queue a synthetic webhook test
+      tags:
+      - Webhooks
+      x-required-scopes:
+      - webhooks.write
+components:
+  schemas:
+    DeliveryOutputBody:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/WebhookDelivery'
+      required:
+      - data
+      type: object
+    WebhookDelivery:
+      additionalProperties: false
+      properties:
+        attempts:
+          format: int64
+          type: integer
+        createdAt:
+          format: date-time
+          type: string
+        cursor:
+          format: int64
+          type: integer
+        deliveredAt:
+          format: date-time
+          type:
+          - string
+          - 'null'
+        eventId:
+          type: string
+        id:
+          type: string
+        lastErrorCode:
+          type:
+          - string
+          - 'null'
+        lastStatusCode:
+          format: int64
+          type:
+          - integer
+          - 'null'
+        nextAttemptAt:
+          format: date-time
+          type: string
+        status:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        webhookId:
+          type: string
+      required:
+      - cursor
+      - id
+      - webhookId
+      - eventId
+      - status
+      - attempts
+      - nextAttemptAt
+      - deliveredAt
+      - lastStatusCode
+      - lastErrorCode
+      - createdAt
+      - updatedAt
+      type: object
+    WebhookListData:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/Webhook'
+          type:
+          - array
+          - 'null'
+        total:
+          format: int64
+          type: integer
+      required:
+      - items
+      - total
+      type: object
+    Webhook:
+      additionalProperties: false
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        direction:
+          enum:
+          - incoming
+          - outgoing
+          - both
+          type: string
+        enabled:
+          type: boolean
+        id:
+          type: string
+        updatedAt:
+          format: date-time
+          type: string
+        url:
+          type: string
+      required:
+      - id
+      - url
+      - direction
+      - enabled
+      - createdAt
+      - updatedAt
+      type: object
+    WebhookBody:
+      additionalProperties: false
+      properties:
+        direction:
+          default: both
+          enum:
+          - incoming
+          - outgoing
+          - both
+          type: string
+        enabled:
+          description: Defaults to true when omitted.
+          type: boolean
+        url:
+          description: Public HTTPS destination. Private and local network targets are rejected.
+          format: uri
+          type: string
+      required:
+      - url
+      - direction
+      type: object
+    WebhookOutputBody:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/Webhook'
+      required:
+      - data
+      type: object
+    ListDeliveriesOutputBody:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/DeliveryListData'
+      required:
+      - data
+      type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
+      type: object
+    CreatedWebhook:
+      additionalProperties: false
+      properties:
+        secret:
+          description: Signing secret shown once. Store it securely.
+          type: string
+        webhook:
+          $ref: '#/components/schemas/Webhook'
+      required:
+      - webhook
+      - secret
+      type: object
+    DeliveryListData:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/WebhookDelivery'
+          type:
+          - array
+          - 'null'
+        total:
+          format: int64
+          type: integer
+      required:
+      - items
+      - total
+      type: object
+    CreatedWebhookOutputBody:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/CreatedWebhook'
+      required:
+      - data
+      type: object
+    ErrorModel:
+      additionalProperties: false
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          examples:
+          - Property foo is required but is missing.
+          type: string
+        errors:
+          description: Optional list of individual error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          examples:
+          - https://example.com/error-log/abc123
+          format: uri
+          type: string
+        status:
+          description: HTTP status code
+          examples:
+          - 400
+          format: int64
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          examples:
+          - Bad Request
+          type: string
+        type:
+          default: about:blank
+          description: A URI reference to human-readable documentation for the error.
+          examples:
+          - https://example.com/errors/example
+          format: uri
+          type: string
+      type: object
+    ListWebhooksOutputBody:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/WebhookListData'
+      required:
+      - data
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      description: Workspace-scoped PRO API key created in Entergram Settings > Developers.
+      in: header
+      name: X-API-Key
+      type: apiKey
+x-entergram-scopes:
+- workspace.read
+- members.read
+- accounts.read
+- contacts.read
+- chats.read
+- chats.write
+- messages.read
+- messages.write
+- custom_fields.read
+- custom_fields.write
+- tickets.read
+- tickets.write
+- events.read
+- webhooks.read
+- webhooks.write

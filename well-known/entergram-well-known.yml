@@ -1,11 +1,16 @@
-generated: '2026-09-11'
+generated: '2026-09-19'
 method: searched
 source: live probes of /.well-known/ paths across all known hosts
-note: >-
-  security.txt (RFC 9116) is served identically on entergram.com, www.entergram.com and
-  api.entergram.com. The MCP host mcp.entergram.com serves RFC 8414 OAuth authorization-server
-  metadata and RFC 9728 protected-resource metadata (the auth server itself is app.entergram.com).
-  No api-catalog, apis.json, ai-plugin.json, openid-configuration or agent card was found on any host.
+note: 'security.txt (RFC 9116) is served identically on entergram.com, www.entergram.com and api.entergram.com.
+  The MCP host mcp.entergram.com serves RFC 8414 OAuth authorization-server metadata and RFC 9728 protected-resource
+  metadata (the auth server itself is app.entergram.com). No api-catalog, apis.json, ai-plugin.json, openid-configuration
+  or agent card was found on any host.
+
+
+  MCP-host OAuth discovery added 2026-09-19 (roadmap#321/#337): the harvest visits a provider''s primary
+  hosts, and RFC 9728 protected-resource metadata lives on the MCP host, so these documents existed and
+  were invisible to the scorer. Fetched live and validated on `resource`/`issuer`; one negative control
+  per host.'
 hosts:
 - host: https://entergram.com
   documents:
@@ -59,3 +64,19 @@ hosts:
     status: 404
   - path: /.well-known/agent.json
     status: 404
+- host: https://app.entergram.com
+  documents:
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    file: entergram-app-oauth-authorization-server.json
+    bytes: 1530
+  path_echo_control: passed
+x-mcp-probe:
+  probed: '2026-09-19'
+  issue: roadmap#321, roadmap#337
+  documents:
+  - host: https://app.entergram.com
+    path: /.well-known/oauth-authorization-server
+    file: entergram-app-oauth-authorization-server.json
+  validated_on: resource (RFC 9728) / issuer (RFC 8414, OIDC)
+  negative_control: one per host; a 2xx JSON object at an impossible path discards the host

@@ -1,0 +1,562 @@
+openapi: 3.2.0
+info:
+  contact:
+    email: hello@entergram.com
+    name: Entergram
+  description: Secure, workspace-scoped API for Entergram PRO. Use API keys created in Settings > Developers to access workspace metadata, accounts, contacts, groups, chats, custom fields, and tickets through a stable, documented contract.
+  title: Entergram Public Contacts API
+  version: v1
+security:
+- ApiKeyAuth: []
+tags:
+- description: Workspace contacts deduplicated across connected accounts, including shared groups and attribution.
+  name: Contacts
+paths:
+  /v1/contacts:
+    get:
+      description: Returns workspace contacts deduplicated across connected accounts, including `knownByAccounts` attribution and merged shared-group metadata.
+      operationId: list-contacts
+      parameters:
+      - description: Number of contacts to return per page.
+        explode: false
+        in: query
+        name: limit
+        schema:
+          default: 50
+          description: Number of contacts to return per page.
+          examples:
+          - 50
+          format: int64
+          maximum: 200
+          minimum: 1
+          type: integer
+      - description: Zero-based offset for pagination.
+        explode: false
+        in: query
+        name: offset
+        schema:
+          default: 0
+          description: Zero-based offset for pagination.
+          examples:
+          - 0
+          format: int64
+          minimum: 0
+          type: integer
+      - description: Case-insensitive search over Telegram user id, names, username, and bio.
+        explode: false
+        in: query
+        name: search
+        schema:
+          description: Case-insensitive search over Telegram user id, names, username, and bio.
+          examples:
+          - alex
+          type: string
+      - description: Optional filter for contacts known by a specific workspace member id.
+        explode: false
+        in: query
+        name: member_id
+        schema:
+          description: Optional filter for contacts known by a specific workspace member id.
+          examples:
+          - user_demo_123
+          type: string
+      - description: Optional filter for contacts known by a specific connected account id.
+        explode: false
+        in: query
+        name: account_id
+        schema:
+          description: Optional filter for contacts known by a specific connected account id.
+          examples:
+          - acct_demo_123
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactsEnvelope'
+          description: OK
+        '401':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unauthorized
+        '403':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Forbidden
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+      summary: List workspace contacts
+      tags:
+      - Contacts
+      x-required-scopes:
+      - contacts.read
+  /v1/contacts/{contact_id}:
+    get:
+      description: Returns a single workspace contact identified by canonical Telegram user id.
+      operationId: get-contact
+      parameters:
+      - description: Canonical Telegram user identifier for the contact.
+        in: path
+        name: contact_id
+        required: true
+        schema:
+          description: Canonical Telegram user identifier for the contact.
+          examples:
+          - '1000009876'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactEnvelope'
+          description: OK
+        '401':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unauthorized
+        '403':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Forbidden
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+      summary: Get one workspace contact
+      tags:
+      - Contacts
+      x-required-scopes:
+      - contacts.read
+  /v1/contacts/{contact_id}/shared-groups:
+    get:
+      description: Returns the deduplicated set of groups shared with the contact across all connected accounts in the workspace.
+      operationId: list-contact-shared-groups
+      parameters:
+      - description: Canonical Telegram user identifier for the contact.
+        in: path
+        name: contact_id
+        required: true
+        schema:
+          description: Canonical Telegram user identifier for the contact.
+          examples:
+          - '1000009876'
+          type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SharedGroupsEnvelope'
+          description: OK
+        '401':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unauthorized
+        '403':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Forbidden
+        '404':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Not Found
+        '422':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Unprocessable Entity
+        '500':
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ErrorModel'
+          description: Internal Server Error
+      summary: List groups shared with a contact
+      tags:
+      - Contacts
+      x-required-scopes:
+      - contacts.read
+components:
+  schemas:
+    WorkspaceContactSummary:
+      additionalProperties: false
+      properties:
+        bio:
+          description: Cached Telegram bio when available.
+          examples:
+          - Synthetic example contact for API documentation.
+          type:
+          - string
+          - 'null'
+        firstName:
+          description: Best available first name.
+          examples:
+          - Alex
+          type: string
+        isBot:
+          description: Whether the contact is a bot.
+          examples:
+          - false
+          type: boolean
+        isPremium:
+          description: Whether the contact has Telegram Premium.
+          examples:
+          - true
+          type: boolean
+        knownByAccounts:
+          description: Connected accounts within the workspace that know this contact.
+          items:
+            $ref: '#/components/schemas/ContactKnownByAccountSummary'
+          type:
+          - array
+          - 'null'
+        lastName:
+          description: Best available last name.
+          examples:
+          - Example
+          type:
+          - string
+          - 'null'
+        sharedGroupCount:
+          description: Number of groups shared with the contact.
+          examples:
+          - 3
+          format: int64
+          type: integer
+        sharedGroups:
+          description: Deduplicated list of groups shared with the contact across the workspace.
+          items:
+            $ref: '#/components/schemas/ContactSharedGroupSummary'
+          type:
+          - array
+          - 'null'
+        telegramUserId:
+          description: Canonical Telegram user identifier for the contact.
+          examples:
+          - '1000009876'
+          type: string
+        totalSharedGroupCount:
+          description: Aggregated count of deduplicated shared groups across the workspace.
+          examples:
+          - 3
+          format: int64
+          type: integer
+        username:
+          description: Telegram username of the contact when available.
+          examples:
+          - alex_example
+          type:
+          - string
+          - 'null'
+      required:
+      - telegramUserId
+      - firstName
+      - lastName
+      - username
+      - bio
+      - isBot
+      - isPremium
+      - sharedGroupCount
+      - totalSharedGroupCount
+      - knownByAccounts
+      - sharedGroups
+      type: object
+    ContactsList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/WorkspaceContactSummary'
+          type:
+          - array
+          - 'null'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+      - items
+      - pagination
+      type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
+      type: object
+    SharedGroupsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/SharedGroupsList'
+      required:
+      - data
+      type: object
+    Pagination:
+      additionalProperties: false
+      properties:
+        hasMore:
+          type: boolean
+        limit:
+          format: int64
+          type: integer
+        nextOffset:
+          format: int64
+          type:
+          - integer
+          - 'null'
+        offset:
+          format: int64
+          type: integer
+        total:
+          format: int64
+          type: integer
+      required:
+      - limit
+      - offset
+      - total
+      - hasMore
+      - nextOffset
+      type: object
+    SharedGroupsList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ContactSharedGroupSummary'
+          type:
+          - array
+          - 'null'
+        total:
+          format: int64
+          type: integer
+      required:
+      - items
+      - total
+      type: object
+    ContactEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/WorkspaceContactSummary'
+      required:
+      - data
+      type: object
+    ErrorModel:
+      additionalProperties: false
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          examples:
+          - Property foo is required but is missing.
+          type: string
+        errors:
+          description: Optional list of individual error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          examples:
+          - https://example.com/error-log/abc123
+          format: uri
+          type: string
+        status:
+          description: HTTP status code
+          examples:
+          - 400
+          format: int64
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          examples:
+          - Bad Request
+          type: string
+        type:
+          default: about:blank
+          description: A URI reference to human-readable documentation for the error.
+          examples:
+          - https://example.com/errors/example
+          format: uri
+          type: string
+      type: object
+    ContactSharedGroupSummary:
+      additionalProperties: false
+      properties:
+        chatType:
+          description: Normalized chat type.
+          examples:
+          - group
+          type: string
+        displayName:
+          description: Best available group title.
+          examples:
+          - Community Alpha
+          type: string
+        groupId:
+          description: Canonical Telegram chat identifier for the shared group.
+          examples:
+          - '-1000001234567'
+          type: string
+        inviteLink:
+          description: Most recently cached invite link for the group.
+          examples:
+          - https://t.me/+sampleinvite123
+          type:
+          - string
+          - 'null'
+        inviteLinkUpdatedAt:
+          description: Timestamp of the last invite-link refresh.
+          format: date-time
+          type:
+          - string
+          - 'null'
+        memberCount:
+          description: Cached member count for the group.
+          examples:
+          - 245
+          format: int64
+          type:
+          - integer
+          - 'null'
+        participantCount:
+          description: Member count rendered for contacts UI compatibility.
+          examples:
+          - 245
+          format: int64
+          type: integer
+        username:
+          description: Telegram username for the group when available.
+          examples:
+          - samplecommunity
+          type:
+          - string
+          - 'null'
+      required:
+      - groupId
+      - displayName
+      - username
+      - chatType
+      - inviteLink
+      - inviteLinkUpdatedAt
+      - memberCount
+      - participantCount
+      type: object
+    ContactsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/ContactsList'
+      required:
+      - data
+      type: object
+    ContactKnownByAccountSummary:
+      additionalProperties: false
+      properties:
+        accountId:
+          description: Connected account identifier.
+          examples:
+          - acct_demo_123
+          type: string
+        displayName:
+          description: Operator-facing label for the connected account.
+          examples:
+          - Ops Sample
+          type:
+          - string
+          - 'null'
+        ownerDisplayName:
+          description: Display name of the workspace member that owns the connected account.
+          examples:
+          - Alex Example
+          type:
+          - string
+          - 'null'
+        ownerUserId:
+          description: Workspace member id that owns the connected account.
+          examples:
+          - user_demo_123
+          type: string
+        username:
+          description: Telegram username of the connected account.
+          examples:
+          - ops_sample
+          type:
+          - string
+          - 'null'
+      required:
+      - accountId
+      - username
+      - displayName
+      - ownerUserId
+      - ownerDisplayName
+      type: object
+  securitySchemes:
+    ApiKeyAuth:
+      description: Workspace-scoped PRO API key created in Entergram Settings > Developers.
+      in: header
+      name: X-API-Key
+      type: apiKey
+x-entergram-scopes:
+- workspace.read
+- members.read
+- accounts.read
+- contacts.read
+- chats.read
+- chats.write
+- messages.read
+- messages.write
+- custom_fields.read
+- custom_fields.write
+- tickets.read
+- tickets.write
+- events.read
+- webhooks.read
+- webhooks.write

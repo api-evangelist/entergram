@@ -1,0 +1,52 @@
+{
+  "provider": "entergram",
+  "sources": [
+    "_original/entergram-openapi.json"
+  ],
+  "outputs": [
+    "entergram-accounts-api-openapi.yml",
+    "entergram-chat-commands-api-openapi.yml",
+    "entergram-chats-api-openapi.yml",
+    "entergram-contacts-api-openapi.yml",
+    "entergram-custom-fields-api-openapi.yml",
+    "entergram-events-api-openapi.yml",
+    "entergram-groups-api-openapi.yml",
+    "entergram-live-chats-api-openapi.yml",
+    "entergram-make-webhooks-api-openapi.yml",
+    "entergram-members-api-openapi.yml",
+    "entergram-messages-api-openapi.yml",
+    "entergram-system-api-openapi.yml",
+    "entergram-tickets-api-openapi.yml",
+    "entergram-webhooks-api-openapi.yml",
+    "entergram-workspace-api-openapi.yml",
+    "entergram-workspace-chats-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "entergram-openapi.json: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "entergram-openapi.json: tagged paths GET /v1/workspace/access -> Workspace",
+    "entergram-openapi.json: declared missing tag: Make webhooks",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "entergram-accounts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-chat-commands-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-chats-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-contacts-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-custom-fields-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-events-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-groups-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-live-chats-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-make-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-members-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-messages-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-system-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-tickets-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-workspace-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "entergram-workspace-chats-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
+}
