@@ -49,6 +49,18 @@ components:
       - id
       - displayName
       type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
+      type: object
     AccountsList:
       additionalProperties: false
       properties:
@@ -64,18 +76,6 @@ components:
       required:
       - items
       - total
-      type: object
-    ErrorDetail:
-      additionalProperties: false
-      properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
-          type: string
-        message:
-          description: Error message text
-          type: string
-        value:
-          description: The value at the given location
       type: object
     ConnectedAccountSummary:
       additionalProperties: false

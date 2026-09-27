@@ -78,14 +78,6 @@ components:
       - expiresAt
       - scopes
       type: object
-    MeEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/MeResponse'
-      required:
-      - data
-      type: object
     MeResponse:
       additionalProperties: false
       properties:
@@ -96,6 +88,14 @@ components:
       required:
       - apiKey
       - workspace
+      type: object
+    MeEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/MeResponse'
+      required:
+      - data
       type: object
     ErrorModel:
       additionalProperties: false

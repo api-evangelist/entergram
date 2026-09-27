@@ -20,7 +20,7 @@ tags:
 - Communications
 - CRM
 - Telegram
-- Customer-Support
+- Customer Support
 - Ticketing
 - Sales
 - MCP
@@ -36,6 +36,7 @@ tags_raw:
 - Sales
 - MCP
 - Webhooks
+- Customer-Support
 apis:
 - aid: entergram:entergram-accounts-api
   name: Entergram Accounts API
@@ -395,6 +396,8 @@ apis:
   humanURL: https://api.entergram.com/v1
   baseURL: https://api.entergram.com
   tags:
+  - Ticketing
+  tags_raw:
   - Tickets
   properties:
   - type: OpenAPI

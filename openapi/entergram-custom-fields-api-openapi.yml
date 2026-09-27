@@ -1338,165 +1338,21 @@ paths:
       - custom_fields.write
 components:
   schemas:
-    ChatCustomFieldsEnvelope:
+    ChatCustomFieldsResource:
       additionalProperties: false
       properties:
-        data:
-          $ref: '#/components/schemas/ChatCustomFieldsResource'
-      required:
-      - data
-      type: object
-    ColumnsList:
-      additionalProperties: false
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/FieldColumnSummary'
-          type:
-          - array
-          - 'null'
-      required:
-      - items
-      type: object
-    PatchChatCustomFieldsBody:
-      additionalProperties: false
-      properties:
+        telegramChatId:
+          description: Canonical Telegram chat identifier.
+          examples:
+          - '-1000001234567'
+          type: string
         values:
           additionalProperties: {}
-          description: Partial patch keyed by custom-column key. Send null or an empty string to delete a field.
+          description: Custom field values keyed by custom-column key.
           type: object
       required:
+      - telegramChatId
       - values
-      type: object
-    DeletedResource:
-      additionalProperties: false
-      properties:
-        id:
-          description: Deleted resource identifier.
-          examples:
-          - column_demo_123
-          type: string
-      required:
-      - id
-      type: object
-    ErrorModel:
-      additionalProperties: false
-      properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          examples:
-          - Property foo is required but is missing.
-          type: string
-        errors:
-          description: Optional list of individual error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
-          type:
-          - array
-          - 'null'
-        instance:
-          description: A URI reference that identifies the specific occurrence of the problem.
-          examples:
-          - https://example.com/error-log/abc123
-          format: uri
-          type: string
-        status:
-          description: HTTP status code
-          examples:
-          - 400
-          format: int64
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
-          examples:
-          - Bad Request
-          type: string
-        type:
-          default: about:blank
-          description: A URI reference to human-readable documentation for the error.
-          examples:
-          - https://example.com/errors/example
-          format: uri
-          type: string
-      type: object
-    ColumnEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/FieldColumnSummary'
-      required:
-      - data
-      type: object
-    OptionEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/FieldOptionSummary'
-      required:
-      - data
-      type: object
-    UpdateColumnBody:
-      additionalProperties: false
-      properties:
-        defaultValue:
-          description: Updated JSON default value. Pass null to clear it.
-        isRequired:
-          description: Updated required flag.
-          examples:
-          - true
-          type: boolean
-        name:
-          description: Updated human-readable field label.
-          examples:
-          - Account Segment
-          type: string
-        options:
-          description: Full replacement for selectable options. Send an empty array to clear all options.
-          items:
-            $ref: '#/components/schemas/CreateOptionBody'
-          type: array
-        order:
-          description: Updated display order.
-          examples:
-          - 4
-          format: int64
-          type: integer
-        type:
-          description: Updated field input type.
-          examples:
-          - multiselect
-          type: string
-      type: object
-    OptionsList:
-      additionalProperties: false
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/FieldOptionSummary'
-          type:
-          - array
-          - 'null'
-      required:
-      - items
-      type: object
-    UpdateOptionBody:
-      additionalProperties: false
-      properties:
-        color:
-          description: Updated hex color token.
-          examples:
-          - '#1d4ed8'
-          type: string
-        label:
-          description: Updated option label.
-          examples:
-          - Qualified Plus
-          type: string
-        value:
-          description: Updated stable option value.
-          examples:
-          - qualified_plus
-          type: string
       type: object
     FieldColumnSummary:
       additionalProperties: false
@@ -1560,11 +1416,54 @@ components:
       - updatedAt
       - options
       type: object
-    DeletedEnvelope:
+    ColumnEnvelope:
       additionalProperties: false
       properties:
         data:
-          $ref: '#/components/schemas/DeletedResource'
+          $ref: '#/components/schemas/FieldColumnSummary'
+      required:
+      - data
+      type: object
+    ColumnsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/ColumnsList'
+      required:
+      - data
+      type: object
+    OptionEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/FieldOptionSummary'
+      required:
+      - data
+      type: object
+    UpdateOptionBody:
+      additionalProperties: false
+      properties:
+        color:
+          description: Updated hex color token.
+          examples:
+          - '#1d4ed8'
+          type: string
+        label:
+          description: Updated option label.
+          examples:
+          - Qualified Plus
+          type: string
+        value:
+          description: Updated stable option value.
+          examples:
+          - qualified_plus
+          type: string
+      type: object
+    OptionsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/OptionsList'
       required:
       - data
       type: object
@@ -1607,17 +1506,79 @@ components:
       - createdAt
       - updatedAt
       type: object
-    ErrorDetail:
+    UpdateColumnBody:
       additionalProperties: false
       properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+        defaultValue:
+          description: Updated JSON default value. Pass null to clear it.
+        isRequired:
+          description: Updated required flag.
+          examples:
+          - true
+          type: boolean
+        name:
+          description: Updated human-readable field label.
+          examples:
+          - Account Segment
           type: string
-        message:
-          description: Error message text
+        options:
+          description: Full replacement for selectable options. Send an empty array to clear all options.
+          items:
+            $ref: '#/components/schemas/CreateOptionBody'
+          type: array
+        order:
+          description: Updated display order.
+          examples:
+          - 4
+          format: int64
+          type: integer
+        type:
+          description: Updated field input type.
+          examples:
+          - multiselect
           type: string
-        value:
-          description: The value at the given location
+      type: object
+    DeletedEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedResource'
+      required:
+      - data
+      type: object
+    OptionsList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/FieldOptionSummary'
+          type:
+          - array
+          - 'null'
+      required:
+      - items
+      type: object
+    PatchChatCustomFieldsBody:
+      additionalProperties: false
+      properties:
+        values:
+          additionalProperties: {}
+          description: Partial patch keyed by custom-column key. Send null or an empty string to delete a field.
+          type: object
+      required:
+      - values
+      type: object
+    ColumnsList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/FieldColumnSummary'
+          type:
+          - array
+          - 'null'
+      required:
+      - items
       type: object
     CreateColumnBody:
       additionalProperties: false
@@ -1662,13 +1623,17 @@ components:
       - name
       - type
       type: object
-    OptionsEnvelope:
+    ErrorDetail:
       additionalProperties: false
       properties:
-        data:
-          $ref: '#/components/schemas/OptionsList'
-      required:
-      - data
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
       type: object
     CreateOptionBody:
       additionalProperties: false
@@ -1694,29 +1659,64 @@ components:
       - value
       - label
       type: object
-    ChatCustomFieldsResource:
-      additionalProperties: false
-      properties:
-        telegramChatId:
-          description: Canonical Telegram chat identifier.
-          examples:
-          - '-1000001234567'
-          type: string
-        values:
-          additionalProperties: {}
-          description: Custom field values keyed by custom-column key.
-          type: object
-      required:
-      - telegramChatId
-      - values
-      type: object
-    ColumnsEnvelope:
+    ChatCustomFieldsEnvelope:
       additionalProperties: false
       properties:
         data:
-          $ref: '#/components/schemas/ColumnsList'
+          $ref: '#/components/schemas/ChatCustomFieldsResource'
       required:
       - data
+      type: object
+    DeletedResource:
+      additionalProperties: false
+      properties:
+        id:
+          description: Deleted resource identifier.
+          examples:
+          - column_demo_123
+          type: string
+      required:
+      - id
+      type: object
+    ErrorModel:
+      additionalProperties: false
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          examples:
+          - Property foo is required but is missing.
+          type: string
+        errors:
+          description: Optional list of individual error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          examples:
+          - https://example.com/error-log/abc123
+          format: uri
+          type: string
+        status:
+          description: HTTP status code
+          examples:
+          - 400
+          format: int64
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          examples:
+          - Bad Request
+          type: string
+        type:
+          default: about:blank
+          description: A URI reference to human-readable documentation for the error.
+          examples:
+          - https://example.com/errors/example
+          format: uri
+          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:

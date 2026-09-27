@@ -86,14 +86,6 @@ components:
         value:
           description: The value at the given location
       type: object
-    ListEventsOutputBody:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/EventListResult'
-      required:
-      - data
-      type: object
     EventListResult:
       additionalProperties: false
       properties:
@@ -184,6 +176,14 @@ components:
       - senderName
       - chatTitle
       - createdAt
+      type: object
+    ListEventsOutputBody:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/EventListResult'
+      required:
+      - data
       type: object
     ErrorModel:
       additionalProperties: false
