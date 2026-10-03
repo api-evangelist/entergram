@@ -1349,6 +1349,265 @@ paths:
       - messages.write
 components:
   schemas:
+    SendResultEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/SendResult'
+      required:
+      - data
+      type: object
+    CreateMediaMessageBody:
+      additionalProperties: false
+      properties:
+        accountId:
+          description: Connected account id from the accounts endpoint.
+          examples:
+          - acct_demo_123
+          type: string
+        idempotencyKey:
+          description: Client-supplied idempotency key used to identify retries.
+          examples:
+          - media-2026-04-16-001
+          minLength: 1
+          type: string
+        parseMode:
+          description: Optional Telegram parse mode for the caption.
+          examples:
+          - Markdown
+          type: string
+        replyToMessageId:
+          description: Optional Telegram message id to reply to.
+          examples:
+          - 123450
+          format: int64
+          type: integer
+        text:
+          description: Optional caption text for the upload batch.
+          examples:
+          - Please review the attached file.
+          type: string
+        uploadIds:
+          description: Previously uploaded media payload ids to send.
+          examples:
+          - - 9f3b2ab4-1a2b-4b8e-8d12-4d9d2a31c8f8
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+      required:
+      - accountId
+      - uploadIds
+      - idempotencyKey
+      type: object
+    MessageReactionsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/MessageReactionsResult'
+      required:
+      - data
+      type: object
+    HistoryEntity:
+      additionalProperties: false
+      properties:
+        length:
+          format: int64
+          type: integer
+        offset:
+          format: int64
+          type: integer
+        type:
+          type: string
+        url:
+          type: string
+        userId:
+          type: string
+      type: object
+    MessageReactionsResult:
+      additionalProperties: false
+      properties:
+        accountId:
+          type: string
+        chatId:
+          type: string
+        messageId:
+          format: int64
+          type: integer
+        reactions:
+          items:
+            $ref: '#/components/schemas/MessageReaction'
+          type:
+          - array
+          - 'null'
+        users:
+          items:
+            $ref: '#/components/schemas/ReactionUser'
+          type:
+          - array
+          - 'null'
+      required:
+      - accountId
+      - chatId
+      - messageId
+      type: object
+    SetMessageReactionsBody:
+      additionalProperties: false
+      properties:
+        accountId:
+          description: Connected account id from the accounts endpoint.
+          examples:
+          - acct_demo_123
+          type: string
+        reactions:
+          description: Full replacement list of reactions to set on the message. Use emoji like 👍 or a custom emoji document id string. Pass an empty array to clear your reactions.
+          examples:
+          - - 👍
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+      required:
+      - accountId
+      - reactions
+      type: object
+    HistoryReaction:
+      additionalProperties: false
+      properties:
+        count:
+          format: int64
+          type: integer
+        emoji:
+          type: string
+        mine:
+          type: boolean
+      type: object
+    ForwardMessagesBody:
+      additionalProperties: false
+      properties:
+        accountId:
+          description: Connected account id from the accounts endpoint.
+          examples:
+          - acct_demo_123
+          type: string
+        dropAuthor:
+          description: Hide the original author when Telegram supports it.
+          examples:
+          - false
+          type: boolean
+        dropMediaCaptions:
+          description: Drop source media captions when Telegram supports it.
+          examples:
+          - false
+          type: boolean
+        fromChatId:
+          description: Source Telegram chat identifier.
+          examples:
+          - '-1000007654321'
+          type: string
+        messageIds:
+          description: Telegram message ids to forward.
+          examples:
+          - - 123456
+            - 123457
+          items:
+            format: int64
+            type: integer
+          type:
+          - array
+          - 'null'
+        silent:
+          description: Forward silently when Telegram supports it.
+          examples:
+          - false
+          type: boolean
+      required:
+      - accountId
+      - fromChatId
+      - messageIds
+      type: object
+    MessageReaction:
+      additionalProperties: false
+      properties:
+        count:
+          format: int64
+          type: integer
+        customEmojiId:
+          type: string
+        emoji:
+          type: string
+        mine:
+          type: boolean
+        type:
+          type: string
+        users:
+          items:
+            $ref: '#/components/schemas/ReactionUser'
+          type:
+          - array
+          - 'null'
+      type: object
+    MessagesPageEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/HistoryPage'
+      required:
+      - data
+      type: object
+    HistoryPage:
+      additionalProperties: false
+      properties:
+        accountId:
+          type: string
+        chatId:
+          type: string
+        hasMore:
+          type: boolean
+        items:
+          items:
+            $ref: '#/components/schemas/Message'
+          type:
+          - array
+          - 'null'
+        oldestMessageId:
+          format: int64
+          type: integer
+        readOutboxMaxId:
+          format: int64
+          type: integer
+      required:
+      - accountId
+      - chatId
+      - items
+      - hasMore
+      type: object
+    SendResult:
+      additionalProperties: false
+      properties:
+        chatId:
+          type: string
+        date:
+          format: date-time
+          type: string
+        idempotencyKey:
+          type: string
+        localMessageId:
+          type: string
+        messageIds:
+          items:
+            format: int64
+            type: integer
+          type:
+          - array
+          - 'null'
+        text:
+          type: string
+      required:
+      - messageIds
+      type: object
     UploadMediaResult:
       additionalProperties: false
       properties:
@@ -1408,50 +1667,53 @@ components:
       - maxSizeBytes
       - expiresAt
       type: object
-    MessageEnvelope:
+    HistoryMedia:
       additionalProperties: false
       properties:
-        data:
-          $ref: '#/components/schemas/Message'
-      required:
-      - data
-      type: object
-    SendResultEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/SendResult'
-      required:
-      - data
-      type: object
-    MessageReaction:
-      additionalProperties: false
-      properties:
-        count:
+        durationSecs:
           format: int64
           type: integer
-        customEmojiId:
+        fileName:
           type: string
-        emoji:
+        fileSize:
+          format: int64
+          type: integer
+        height:
+          format: int64
+          type: integer
+        mimeType:
           type: string
-        mine:
-          type: boolean
         type:
           type: string
-        users:
-          items:
-            $ref: '#/components/schemas/ReactionUser'
-          type:
-          - array
-          - 'null'
+        url:
+          type: string
+        width:
+          format: int64
+          type: integer
       type: object
-    MediaUploadTicketsEnvelope:
+    ReactionUser:
       additionalProperties: false
       properties:
-        data:
-          $ref: '#/components/schemas/MediaUploadTicketResult'
-      required:
-      - data
+        id:
+          type: string
+        isMe:
+          type: boolean
+        name:
+          type: string
+        username:
+          type: string
+      type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
       type: object
     MediaUploadEnvelope:
       additionalProperties: false
@@ -1461,13 +1723,68 @@ components:
       required:
       - data
       type: object
-    MessageReactionsEnvelope:
+    UpdateMessageBody:
       additionalProperties: false
       properties:
-        data:
-          $ref: '#/components/schemas/MessageReactionsResult'
+        accountId:
+          description: Connected account id from the accounts endpoint.
+          examples:
+          - acct_demo_123
+          type: string
+        parseMode:
+          description: Optional Telegram parse mode.
+          examples:
+          - Markdown
+          type: string
+        text:
+          description: Replacement message text.
+          examples:
+          - Edited public API message.
+          minLength: 1
+          type: string
       required:
-      - data
+      - accountId
+      - text
+      type: object
+    ErrorModel:
+      additionalProperties: false
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          examples:
+          - Property foo is required but is missing.
+          type: string
+        errors:
+          description: Optional list of individual error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          examples:
+          - https://example.com/error-log/abc123
+          format: uri
+          type: string
+        status:
+          description: HTTP status code
+          examples:
+          - 400
+          format: int64
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          examples:
+          - Bad Request
+          type: string
+        type:
+          default: about:blank
+          description: A URI reference to human-readable documentation for the error.
+          examples:
+          - https://example.com/errors/example
+          format: uri
+          type: string
       type: object
     CreateMediaUploadTicketsBody:
       additionalProperties: false
@@ -1524,68 +1841,6 @@ components:
       - text
       - idempotencyKey
       type: object
-    ReactionUser:
-      additionalProperties: false
-      properties:
-        id:
-          type: string
-        isMe:
-          type: boolean
-        name:
-          type: string
-        username:
-          type: string
-      type: object
-    UpdateMessageBody:
-      additionalProperties: false
-      properties:
-        accountId:
-          description: Connected account id from the accounts endpoint.
-          examples:
-          - acct_demo_123
-          type: string
-        parseMode:
-          description: Optional Telegram parse mode.
-          examples:
-          - Markdown
-          type: string
-        text:
-          description: Replacement message text.
-          examples:
-          - Edited public API message.
-          minLength: 1
-          type: string
-      required:
-      - accountId
-      - text
-      type: object
-    HistoryEntity:
-      additionalProperties: false
-      properties:
-        length:
-          format: int64
-          type: integer
-        offset:
-          format: int64
-          type: integer
-        type:
-          type: string
-        url:
-          type: string
-        userId:
-          type: string
-      type: object
-    HistoryReaction:
-      additionalProperties: false
-      properties:
-        count:
-          format: int64
-          type: integer
-        emoji:
-          type: string
-        mine:
-          type: boolean
-      type: object
     Sender:
       additionalProperties: false
       properties:
@@ -1595,287 +1850,6 @@ components:
           type: string
         username:
           type: string
-      type: object
-    SetMessageReactionsBody:
-      additionalProperties: false
-      properties:
-        accountId:
-          description: Connected account id from the accounts endpoint.
-          examples:
-          - acct_demo_123
-          type: string
-        reactions:
-          description: Full replacement list of reactions to set on the message. Use emoji like 👍 or a custom emoji document id string. Pass an empty array to clear your reactions.
-          examples:
-          - - 👍
-          items:
-            type: string
-          type:
-          - array
-          - 'null'
-      required:
-      - accountId
-      - reactions
-      type: object
-    HistoryPage:
-      additionalProperties: false
-      properties:
-        accountId:
-          type: string
-        chatId:
-          type: string
-        hasMore:
-          type: boolean
-        items:
-          items:
-            $ref: '#/components/schemas/Message'
-          type:
-          - array
-          - 'null'
-        oldestMessageId:
-          format: int64
-          type: integer
-        readOutboxMaxId:
-          format: int64
-          type: integer
-      required:
-      - accountId
-      - chatId
-      - items
-      - hasMore
-      type: object
-    CreateMediaMessageBody:
-      additionalProperties: false
-      properties:
-        accountId:
-          description: Connected account id from the accounts endpoint.
-          examples:
-          - acct_demo_123
-          type: string
-        idempotencyKey:
-          description: Client-supplied idempotency key used to identify retries.
-          examples:
-          - media-2026-04-16-001
-          minLength: 1
-          type: string
-        parseMode:
-          description: Optional Telegram parse mode for the caption.
-          examples:
-          - Markdown
-          type: string
-        replyToMessageId:
-          description: Optional Telegram message id to reply to.
-          examples:
-          - 123450
-          format: int64
-          type: integer
-        text:
-          description: Optional caption text for the upload batch.
-          examples:
-          - Please review the attached file.
-          type: string
-        uploadIds:
-          description: Previously uploaded media payload ids to send.
-          examples:
-          - - 9f3b2ab4-1a2b-4b8e-8d12-4d9d2a31c8f8
-          items:
-            type: string
-          type:
-          - array
-          - 'null'
-      required:
-      - accountId
-      - uploadIds
-      - idempotencyKey
-      type: object
-    MessageReactionsResult:
-      additionalProperties: false
-      properties:
-        accountId:
-          type: string
-        chatId:
-          type: string
-        messageId:
-          format: int64
-          type: integer
-        reactions:
-          items:
-            $ref: '#/components/schemas/MessageReaction'
-          type:
-          - array
-          - 'null'
-        users:
-          items:
-            $ref: '#/components/schemas/ReactionUser'
-          type:
-          - array
-          - 'null'
-      required:
-      - accountId
-      - chatId
-      - messageId
-      type: object
-    ForwardMessagesBody:
-      additionalProperties: false
-      properties:
-        accountId:
-          description: Connected account id from the accounts endpoint.
-          examples:
-          - acct_demo_123
-          type: string
-        dropAuthor:
-          description: Hide the original author when Telegram supports it.
-          examples:
-          - false
-          type: boolean
-        dropMediaCaptions:
-          description: Drop source media captions when Telegram supports it.
-          examples:
-          - false
-          type: boolean
-        fromChatId:
-          description: Source Telegram chat identifier.
-          examples:
-          - '-1000007654321'
-          type: string
-        messageIds:
-          description: Telegram message ids to forward.
-          examples:
-          - - 123456
-            - 123457
-          items:
-            format: int64
-            type: integer
-          type:
-          - array
-          - 'null'
-        silent:
-          description: Forward silently when Telegram supports it.
-          examples:
-          - false
-          type: boolean
-      required:
-      - accountId
-      - fromChatId
-      - messageIds
-      type: object
-    ErrorDetail:
-      additionalProperties: false
-      properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
-          type: string
-        message:
-          description: Error message text
-          type: string
-        value:
-          description: The value at the given location
-      type: object
-    HistoryMedia:
-      additionalProperties: false
-      properties:
-        durationSecs:
-          format: int64
-          type: integer
-        fileName:
-          type: string
-        fileSize:
-          format: int64
-          type: integer
-        height:
-          format: int64
-          type: integer
-        mimeType:
-          type: string
-        type:
-          type: string
-        url:
-          type: string
-        width:
-          format: int64
-          type: integer
-      type: object
-    Message:
-      additionalProperties: false
-      properties:
-        actionType:
-          type: string
-        date:
-          format: date-time
-          type: string
-        editDate:
-          format: date-time
-          type: string
-        entities:
-          items:
-            $ref: '#/components/schemas/HistoryEntity'
-          type:
-          - array
-          - 'null'
-        groupedId:
-          type: string
-        id:
-          format: int64
-          type: integer
-        isEdited:
-          type: boolean
-        isOut:
-          type: boolean
-        isRead:
-          type: boolean
-        media:
-          $ref: '#/components/schemas/HistoryMedia'
-        messageType:
-          type: string
-        reactions:
-          items:
-            $ref: '#/components/schemas/HistoryReaction'
-          type:
-          - array
-          - 'null'
-        replyToMessageId:
-          format: int64
-          type: integer
-        sender:
-          $ref: '#/components/schemas/Sender'
-        text:
-          type: string
-      required:
-      - id
-      - date
-      - isOut
-      type: object
-    MessagesPageEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/HistoryPage'
-      required:
-      - data
-      type: object
-    SendResult:
-      additionalProperties: false
-      properties:
-        chatId:
-          type: string
-        date:
-          format: date-time
-          type: string
-        idempotencyKey:
-          type: string
-        localMessageId:
-          type: string
-        messageIds:
-          items:
-            format: int64
-            type: integer
-          type:
-          - array
-          - 'null'
-        text:
-          type: string
-      required:
-      - messageIds
       type: object
     MediaUploadFileBody:
       additionalProperties: false
@@ -1937,45 +1911,71 @@ components:
       - mediaType
       - sizeBytes
       type: object
-    ErrorModel:
+    MessageEnvelope:
       additionalProperties: false
       properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          examples:
-          - Property foo is required but is missing.
+        data:
+          $ref: '#/components/schemas/Message'
+      required:
+      - data
+      type: object
+    Message:
+      additionalProperties: false
+      properties:
+        actionType:
           type: string
-        errors:
-          description: Optional list of individual error details
+        date:
+          format: date-time
+          type: string
+        editDate:
+          format: date-time
+          type: string
+        entities:
           items:
-            $ref: '#/components/schemas/ErrorDetail'
+            $ref: '#/components/schemas/HistoryEntity'
           type:
           - array
           - 'null'
-        instance:
-          description: A URI reference that identifies the specific occurrence of the problem.
-          examples:
-          - https://example.com/error-log/abc123
-          format: uri
+        groupedId:
           type: string
-        status:
-          description: HTTP status code
-          examples:
-          - 400
+        id:
           format: int64
           type: integer
-        title:
-          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
-          examples:
-          - Bad Request
+        isEdited:
+          type: boolean
+        isOut:
+          type: boolean
+        isRead:
+          type: boolean
+        media:
+          $ref: '#/components/schemas/HistoryMedia'
+        messageType:
           type: string
-        type:
-          default: about:blank
-          description: A URI reference to human-readable documentation for the error.
-          examples:
-          - https://example.com/errors/example
-          format: uri
+        reactions:
+          items:
+            $ref: '#/components/schemas/HistoryReaction'
+          type:
+          - array
+          - 'null'
+        replyToMessageId:
+          format: int64
+          type: integer
+        sender:
+          $ref: '#/components/schemas/Sender'
+        text:
           type: string
+      required:
+      - id
+      - date
+      - isOut
+      type: object
+    MediaUploadTicketsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/MediaUploadTicketResult'
+      required:
+      - data
       type: object
   securitySchemes:
     ApiKeyAuth:

@@ -559,6 +559,622 @@ components:
       - attachmentCount
       - author
       type: object
+    TicketSummary:
+      additionalProperties: false
+      properties:
+        assignedTo:
+          $ref: '#/components/schemas/TicketUserSummary'
+          description: Workspace member assigned to the ticket.
+        attachmentCount:
+          description: Total number of ticket attachments.
+          examples:
+          - 1
+          format: int64
+          type: integer
+        closedAt:
+          description: Closing timestamp when the ticket is completed.
+          format: date-time
+          type:
+          - string
+          - 'null'
+        closedBy:
+          $ref: '#/components/schemas/TicketUserSummary'
+          description: Workspace member who closed the ticket.
+        comment:
+          description: Optional short operator note stored directly on the ticket.
+          examples:
+          - Sample escalation note
+          type:
+          - string
+          - 'null'
+        commentCount:
+          description: Total number of ticket comments.
+          examples:
+          - 3
+          format: int64
+          type: integer
+        createdAt:
+          description: Ticket creation timestamp.
+          format: date-time
+          type: string
+        createdBy:
+          $ref: '#/components/schemas/TicketUserSummary'
+          description: Workspace member that created the ticket.
+        customFields:
+          description: Workspace ticket custom field values.
+          items:
+            $ref: '#/components/schemas/TicketCustomFieldSummary'
+          type:
+          - array
+          - 'null'
+        date:
+          description: Optional business date associated with the ticket.
+          format: date-time
+          type:
+          - string
+          - 'null'
+        description:
+          description: Long-form ticket description.
+          examples:
+          - Synthetic customer asked for a follow-up next week.
+          type:
+          - string
+          - 'null'
+        displayId:
+          description: Human-facing numbered ticket identifier.
+          examples:
+          - '#42'
+          type: string
+        id:
+          description: Ticket identifier.
+          examples:
+          - ticket_demo_123
+          type: string
+        legacyTicketHash:
+          description: Previous random ticket hash retained for lookup compatibility.
+          examples:
+          - '#TKT-001'
+          type: string
+        linkedChatIds:
+          description: Telegram chat identifiers currently linked to the ticket.
+          items:
+            type: string
+          type:
+          - array
+          - 'null'
+        priority:
+          description: Priority label.
+          examples:
+          - HIGH
+          type: string
+        status:
+          description: Current workflow status.
+          examples:
+          - OPEN
+          type: string
+        ticketHash:
+          description: Deprecated compatibility alias for displayId.
+          examples:
+          - '#42'
+          type:
+          - string
+          - 'null'
+        ticketNumber:
+          description: Workspace-scoped human-facing ticket number.
+          examples:
+          - 42
+          format: int64
+          type: integer
+        title:
+          description: Ticket title.
+          examples:
+          - Review onboarding request
+          type: string
+        updatedAt:
+          description: Ticket last update timestamp.
+          format: date-time
+          type: string
+        userId:
+          description: Owner user identifier in the frontend database.
+          examples:
+          - user_demo_123
+          type: string
+        workspaceId:
+          description: Workspace identifier owning the ticket.
+          examples:
+          - workspace_demo_123
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - ticketNumber
+      - displayId
+      - ticketHash
+      - title
+      - description
+      - status
+      - priority
+      - comment
+      - date
+      - createdAt
+      - updatedAt
+      - closedAt
+      - userId
+      - workspaceId
+      - commentCount
+      - attachmentCount
+      - linkedChatIds
+      - customFields
+      - createdBy
+      - assignedTo
+      - closedBy
+      type: object
+    Pagination:
+      additionalProperties: false
+      properties:
+        hasMore:
+          type: boolean
+        limit:
+          format: int64
+          type: integer
+        nextOffset:
+          format: int64
+          type:
+          - integer
+          - 'null'
+        offset:
+          format: int64
+          type: integer
+        total:
+          format: int64
+          type: integer
+      required:
+      - limit
+      - offset
+      - total
+      - hasMore
+      - nextOffset
+      type: object
+    ChatEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/ChatDetail'
+      required:
+      - data
+      type: object
+    ChatCommentEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/ChatCommentSummary'
+      required:
+      - data
+      type: object
+    ChatCommentsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/ChatCommentsList'
+      required:
+      - data
+      type: object
+    TicketCustomFieldSummary:
+      additionalProperties: false
+      properties:
+        columnKey:
+          description: Stable custom field key.
+          examples:
+          - source_campaign
+          type: string
+        value:
+          description: Raw JSON value stored for the custom field.
+      required:
+      - columnKey
+      - value
+      type: object
+    TicketUserSummary:
+      additionalProperties: false
+      properties:
+        displayName:
+          description: Preferred display name for the member.
+          examples:
+          - Alex Example
+          type:
+          - string
+          - 'null'
+        email:
+          description: Workspace member email when available.
+          examples:
+          - alex@example.test
+          type:
+          - string
+          - 'null'
+        id:
+          description: Workspace member identifier.
+          examples:
+          - user_demo_123
+          type: string
+      required:
+      - id
+      - displayName
+      - email
+      type: object
+    ChatDeletedEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/ChatDeletedResource'
+      required:
+      - data
+      type: object
+    ChatSummary:
+      additionalProperties: false
+      properties:
+        connectedAccount:
+          $ref: '#/components/schemas/ChatConnectedAccountSummary'
+          description: Connected account that currently owns this chat row.
+        description:
+          description: Telegram description or bio cached for the chat.
+          examples:
+          - Synthetic example chat for API documentation.
+          type:
+          - string
+          - 'null'
+        id:
+          description: Internal chat record identifier for the selected workspace instance.
+          examples:
+          - chat_demo_123
+          type: string
+        lastMessage:
+          $ref: '#/components/schemas/ChatLastMessage'
+          description: Complete canonical latest-message tuple. Existing flat fields remain for compatibility.
+        lastMessageDate:
+          description: Timestamp of the most recent message.
+          format: date-time
+          type:
+          - string
+          - 'null'
+        lastMessageText:
+          description: Most recent message preview captured for the chat.
+          examples:
+          - Please review the sample request.
+          type:
+          - string
+          - 'null'
+        lastMessageTimestamp:
+          description: Telegram message timestamp of the latest message.
+          examples:
+          - 1774728948
+          format: int64
+          type:
+          - integer
+          - 'null'
+        membersCount:
+          description: Cached member count for groups/channels.
+          examples:
+          - 245
+          format: int64
+          type:
+          - integer
+          - 'null'
+        name:
+          description: Best available display name for the chat.
+          examples:
+          - Support Queue Alpha
+          type: string
+        photoUrl:
+          description: Cached avatar or group photo URL.
+          examples:
+          - https://cdn.example.test/chat-photo.png
+          type:
+          - string
+          - 'null'
+        status:
+          description: Lifecycle status of the chat record.
+          examples:
+          - active
+          type: string
+        telegramId:
+          description: Canonical Telegram chat identifier used by Public API endpoints.
+          examples:
+          - '-1000001234567'
+          type: string
+        telegramUsername:
+          description: Telegram username for the chat when available.
+          examples:
+          - samplecommunity
+          type:
+          - string
+          - 'null'
+        title:
+          description: Raw Telegram title for groups/channels.
+          examples:
+          - Community Alpha
+          type:
+          - string
+          - 'null'
+        type:
+          description: Chat type.
+          examples:
+          - group
+          type: string
+        unreadCount:
+          description: Unread message count for the connected account context.
+          examples:
+          - 4
+          format: int64
+          type:
+          - integer
+          - 'null'
+        updatedAt:
+          description: Last time the chat record changed in frontend DB.
+          format: date-time
+          type: string
+        username:
+          description: Workspace-level username alias when available.
+          examples:
+          - support_queue_alpha
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - name
+      - username
+      - type
+      - status
+      - telegramId
+      - telegramUsername
+      - title
+      - description
+      - photoUrl
+      - membersCount
+      - lastMessageText
+      - lastMessageDate
+      - lastMessageTimestamp
+      - lastMessage
+      - unreadCount
+      - updatedAt
+      - connectedAccount
+      type: object
+    LinkedTicketsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/LinkedTicketsList'
+      required:
+      - data
+      type: object
+    ChatDeletedResource:
+      additionalProperties: false
+      properties:
+        id:
+          description: Deleted resource identifier.
+          examples:
+          - chat_comment_demo_123
+          type: string
+      required:
+      - id
+      type: object
+    ChatsList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ChatSummary'
+          type:
+          - array
+          - 'null'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+      - items
+      - pagination
+      type: object
+    ChatLastMessage:
+      additionalProperties: false
+      properties:
+        date:
+          description: Canonical timestamp of the latest message.
+          format: date-time
+          type:
+          - string
+          - 'null'
+        id:
+          description: Telegram message identifier for the canonical latest message.
+          examples:
+          - '123456'
+          type:
+          - string
+          - 'null'
+        isOut:
+          description: True when the sender can be authoritatively matched to the connected Telegram account; null when direction is unknown.
+          type:
+          - boolean
+          - 'null'
+        sender:
+          $ref: '#/components/schemas/ChatLastMessageSender'
+          description: Canonical sender identity when available.
+        text:
+          description: Most recent message preview already stored on the chat snapshot.
+          examples:
+          - Please review the sample request.
+          type:
+          - string
+          - 'null'
+        timestamp:
+          description: Telegram timestamp of the latest message.
+          examples:
+          - 1774728948
+          format: int64
+          type:
+          - integer
+          - 'null'
+      required:
+      - id
+      - text
+      - date
+      - timestamp
+      - isOut
+      - sender
+      type: object
+    ChatCommentsList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/ChatCommentSummary'
+          type:
+          - array
+          - 'null'
+      required:
+      - items
+      type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
+      type: object
+    ErrorModel:
+      additionalProperties: false
+      properties:
+        detail:
+          description: A human-readable explanation specific to this occurrence of the problem.
+          examples:
+          - Property foo is required but is missing.
+          type: string
+        errors:
+          description: Optional list of individual error details
+          items:
+            $ref: '#/components/schemas/ErrorDetail'
+          type:
+          - array
+          - 'null'
+        instance:
+          description: A URI reference that identifies the specific occurrence of the problem.
+          examples:
+          - https://example.com/error-log/abc123
+          format: uri
+          type: string
+        status:
+          description: HTTP status code
+          examples:
+          - 400
+          format: int64
+          type: integer
+        title:
+          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
+          examples:
+          - Bad Request
+          type: string
+        type:
+          default: about:blank
+          description: A URI reference to human-readable documentation for the error.
+          examples:
+          - https://example.com/errors/example
+          format: uri
+          type: string
+      type: object
+    ChatLastMessageSender:
+      additionalProperties: false
+      properties:
+        displayName:
+          description: Best available sender display name from the canonical snapshot.
+          examples:
+          - David Hngr
+          type:
+          - string
+          - 'null'
+        id:
+          description: Telegram sender identifier when the canonical snapshot exposed it.
+          examples:
+          - '580876383'
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - displayName
+      type: object
+    LinkedTicketsList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/TicketSummary'
+          type:
+          - array
+          - 'null'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+      - items
+      - pagination
+      type: object
+    ChatsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/ChatsList'
+      required:
+      - data
+      type: object
+    ChatCommentBody:
+      additionalProperties: false
+      properties:
+        body:
+          description: Plain-text internal note for the chat.
+          examples:
+          - Synthetic account. Route billing questions to the assigned owner.
+          minLength: 1
+          type: string
+      required:
+      - body
+      type: object
+    ChatConnectedAccountSummary:
+      additionalProperties: false
+      properties:
+        color:
+          description: Optional UI color associated with the connected account.
+          examples:
+          - '#2563eb'
+          type:
+          - string
+          - 'null'
+        displayName:
+          description: Operator-facing label for the connected account.
+          examples:
+          - Ops Sample
+          type:
+          - string
+          - 'null'
+        id:
+          description: Connected account identifier.
+          examples:
+          - acct_demo_123
+          type: string
+        username:
+          description: Telegram username of the connected account.
+          examples:
+          - ops_sample
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - username
+      - displayName
+      - color
+      type: object
     ChatDetail:
       additionalProperties: false
       properties:
@@ -739,622 +1355,6 @@ components:
       - unreadCount
       - updatedAt
       - connectedAccount
-      type: object
-    ChatDeletedResource:
-      additionalProperties: false
-      properties:
-        id:
-          description: Deleted resource identifier.
-          examples:
-          - chat_comment_demo_123
-          type: string
-      required:
-      - id
-      type: object
-    ChatSummary:
-      additionalProperties: false
-      properties:
-        connectedAccount:
-          $ref: '#/components/schemas/ChatConnectedAccountSummary'
-          description: Connected account that currently owns this chat row.
-        description:
-          description: Telegram description or bio cached for the chat.
-          examples:
-          - Synthetic example chat for API documentation.
-          type:
-          - string
-          - 'null'
-        id:
-          description: Internal chat record identifier for the selected workspace instance.
-          examples:
-          - chat_demo_123
-          type: string
-        lastMessage:
-          $ref: '#/components/schemas/ChatLastMessage'
-          description: Complete canonical latest-message tuple. Existing flat fields remain for compatibility.
-        lastMessageDate:
-          description: Timestamp of the most recent message.
-          format: date-time
-          type:
-          - string
-          - 'null'
-        lastMessageText:
-          description: Most recent message preview captured for the chat.
-          examples:
-          - Please review the sample request.
-          type:
-          - string
-          - 'null'
-        lastMessageTimestamp:
-          description: Telegram message timestamp of the latest message.
-          examples:
-          - 1774728948
-          format: int64
-          type:
-          - integer
-          - 'null'
-        membersCount:
-          description: Cached member count for groups/channels.
-          examples:
-          - 245
-          format: int64
-          type:
-          - integer
-          - 'null'
-        name:
-          description: Best available display name for the chat.
-          examples:
-          - Support Queue Alpha
-          type: string
-        photoUrl:
-          description: Cached avatar or group photo URL.
-          examples:
-          - https://cdn.example.test/chat-photo.png
-          type:
-          - string
-          - 'null'
-        status:
-          description: Lifecycle status of the chat record.
-          examples:
-          - active
-          type: string
-        telegramId:
-          description: Canonical Telegram chat identifier used by Public API endpoints.
-          examples:
-          - '-1000001234567'
-          type: string
-        telegramUsername:
-          description: Telegram username for the chat when available.
-          examples:
-          - samplecommunity
-          type:
-          - string
-          - 'null'
-        title:
-          description: Raw Telegram title for groups/channels.
-          examples:
-          - Community Alpha
-          type:
-          - string
-          - 'null'
-        type:
-          description: Chat type.
-          examples:
-          - group
-          type: string
-        unreadCount:
-          description: Unread message count for the connected account context.
-          examples:
-          - 4
-          format: int64
-          type:
-          - integer
-          - 'null'
-        updatedAt:
-          description: Last time the chat record changed in frontend DB.
-          format: date-time
-          type: string
-        username:
-          description: Workspace-level username alias when available.
-          examples:
-          - support_queue_alpha
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - name
-      - username
-      - type
-      - status
-      - telegramId
-      - telegramUsername
-      - title
-      - description
-      - photoUrl
-      - membersCount
-      - lastMessageText
-      - lastMessageDate
-      - lastMessageTimestamp
-      - lastMessage
-      - unreadCount
-      - updatedAt
-      - connectedAccount
-      type: object
-    TicketUserSummary:
-      additionalProperties: false
-      properties:
-        displayName:
-          description: Preferred display name for the member.
-          examples:
-          - Alex Example
-          type:
-          - string
-          - 'null'
-        email:
-          description: Workspace member email when available.
-          examples:
-          - alex@example.test
-          type:
-          - string
-          - 'null'
-        id:
-          description: Workspace member identifier.
-          examples:
-          - user_demo_123
-          type: string
-      required:
-      - id
-      - displayName
-      - email
-      type: object
-    ChatsList:
-      additionalProperties: false
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ChatSummary'
-          type:
-          - array
-          - 'null'
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-      required:
-      - items
-      - pagination
-      type: object
-    ChatCommentsList:
-      additionalProperties: false
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/ChatCommentSummary'
-          type:
-          - array
-          - 'null'
-      required:
-      - items
-      type: object
-    Pagination:
-      additionalProperties: false
-      properties:
-        hasMore:
-          type: boolean
-        limit:
-          format: int64
-          type: integer
-        nextOffset:
-          format: int64
-          type:
-          - integer
-          - 'null'
-        offset:
-          format: int64
-          type: integer
-        total:
-          format: int64
-          type: integer
-      required:
-      - limit
-      - offset
-      - total
-      - hasMore
-      - nextOffset
-      type: object
-    ChatEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/ChatDetail'
-      required:
-      - data
-      type: object
-    ChatDeletedEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/ChatDeletedResource'
-      required:
-      - data
-      type: object
-    TicketCustomFieldSummary:
-      additionalProperties: false
-      properties:
-        columnKey:
-          description: Stable custom field key.
-          examples:
-          - source_campaign
-          type: string
-        value:
-          description: Raw JSON value stored for the custom field.
-      required:
-      - columnKey
-      - value
-      type: object
-    ChatCommentEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/ChatCommentSummary'
-      required:
-      - data
-      type: object
-    ChatConnectedAccountSummary:
-      additionalProperties: false
-      properties:
-        color:
-          description: Optional UI color associated with the connected account.
-          examples:
-          - '#2563eb'
-          type:
-          - string
-          - 'null'
-        displayName:
-          description: Operator-facing label for the connected account.
-          examples:
-          - Ops Sample
-          type:
-          - string
-          - 'null'
-        id:
-          description: Connected account identifier.
-          examples:
-          - acct_demo_123
-          type: string
-        username:
-          description: Telegram username of the connected account.
-          examples:
-          - ops_sample
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - username
-      - displayName
-      - color
-      type: object
-    ChatCommentsEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/ChatCommentsList'
-      required:
-      - data
-      type: object
-    LinkedTicketsList:
-      additionalProperties: false
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/TicketSummary'
-          type:
-          - array
-          - 'null'
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-      required:
-      - items
-      - pagination
-      type: object
-    TicketSummary:
-      additionalProperties: false
-      properties:
-        assignedTo:
-          $ref: '#/components/schemas/TicketUserSummary'
-          description: Workspace member assigned to the ticket.
-        attachmentCount:
-          description: Total number of ticket attachments.
-          examples:
-          - 1
-          format: int64
-          type: integer
-        closedAt:
-          description: Closing timestamp when the ticket is completed.
-          format: date-time
-          type:
-          - string
-          - 'null'
-        closedBy:
-          $ref: '#/components/schemas/TicketUserSummary'
-          description: Workspace member who closed the ticket.
-        comment:
-          description: Optional short operator note stored directly on the ticket.
-          examples:
-          - Sample escalation note
-          type:
-          - string
-          - 'null'
-        commentCount:
-          description: Total number of ticket comments.
-          examples:
-          - 3
-          format: int64
-          type: integer
-        createdAt:
-          description: Ticket creation timestamp.
-          format: date-time
-          type: string
-        createdBy:
-          $ref: '#/components/schemas/TicketUserSummary'
-          description: Workspace member that created the ticket.
-        customFields:
-          description: Workspace ticket custom field values.
-          items:
-            $ref: '#/components/schemas/TicketCustomFieldSummary'
-          type:
-          - array
-          - 'null'
-        date:
-          description: Optional business date associated with the ticket.
-          format: date-time
-          type:
-          - string
-          - 'null'
-        description:
-          description: Long-form ticket description.
-          examples:
-          - Synthetic customer asked for a follow-up next week.
-          type:
-          - string
-          - 'null'
-        displayId:
-          description: Human-facing numbered ticket identifier.
-          examples:
-          - '#42'
-          type: string
-        id:
-          description: Ticket identifier.
-          examples:
-          - ticket_demo_123
-          type: string
-        legacyTicketHash:
-          description: Previous random ticket hash retained for lookup compatibility.
-          examples:
-          - '#TKT-001'
-          type: string
-        linkedChatIds:
-          description: Telegram chat identifiers currently linked to the ticket.
-          items:
-            type: string
-          type:
-          - array
-          - 'null'
-        priority:
-          description: Priority label.
-          examples:
-          - HIGH
-          type: string
-        status:
-          description: Current workflow status.
-          examples:
-          - OPEN
-          type: string
-        ticketHash:
-          description: Deprecated compatibility alias for displayId.
-          examples:
-          - '#42'
-          type:
-          - string
-          - 'null'
-        ticketNumber:
-          description: Workspace-scoped human-facing ticket number.
-          examples:
-          - 42
-          format: int64
-          type: integer
-        title:
-          description: Ticket title.
-          examples:
-          - Review onboarding request
-          type: string
-        updatedAt:
-          description: Ticket last update timestamp.
-          format: date-time
-          type: string
-        userId:
-          description: Owner user identifier in the frontend database.
-          examples:
-          - user_demo_123
-          type: string
-        workspaceId:
-          description: Workspace identifier owning the ticket.
-          examples:
-          - workspace_demo_123
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - ticketNumber
-      - displayId
-      - ticketHash
-      - title
-      - description
-      - status
-      - priority
-      - comment
-      - date
-      - createdAt
-      - updatedAt
-      - closedAt
-      - userId
-      - workspaceId
-      - commentCount
-      - attachmentCount
-      - linkedChatIds
-      - customFields
-      - createdBy
-      - assignedTo
-      - closedBy
-      type: object
-    ErrorDetail:
-      additionalProperties: false
-      properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
-          type: string
-        message:
-          description: Error message text
-          type: string
-        value:
-          description: The value at the given location
-      type: object
-    ChatsEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/ChatsList'
-      required:
-      - data
-      type: object
-    ChatCommentBody:
-      additionalProperties: false
-      properties:
-        body:
-          description: Plain-text internal note for the chat.
-          examples:
-          - Synthetic account. Route billing questions to the assigned owner.
-          minLength: 1
-          type: string
-      required:
-      - body
-      type: object
-    ChatLastMessage:
-      additionalProperties: false
-      properties:
-        date:
-          description: Canonical timestamp of the latest message.
-          format: date-time
-          type:
-          - string
-          - 'null'
-        id:
-          description: Telegram message identifier for the canonical latest message.
-          examples:
-          - '123456'
-          type:
-          - string
-          - 'null'
-        isOut:
-          description: True when the sender can be authoritatively matched to the connected Telegram account; null when direction is unknown.
-          type:
-          - boolean
-          - 'null'
-        sender:
-          $ref: '#/components/schemas/ChatLastMessageSender'
-          description: Canonical sender identity when available.
-        text:
-          description: Most recent message preview already stored on the chat snapshot.
-          examples:
-          - Please review the sample request.
-          type:
-          - string
-          - 'null'
-        timestamp:
-          description: Telegram timestamp of the latest message.
-          examples:
-          - 1774728948
-          format: int64
-          type:
-          - integer
-          - 'null'
-      required:
-      - id
-      - text
-      - date
-      - timestamp
-      - isOut
-      - sender
-      type: object
-    LinkedTicketsEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/LinkedTicketsList'
-      required:
-      - data
-      type: object
-    ChatLastMessageSender:
-      additionalProperties: false
-      properties:
-        displayName:
-          description: Best available sender display name from the canonical snapshot.
-          examples:
-          - David Hngr
-          type:
-          - string
-          - 'null'
-        id:
-          description: Telegram sender identifier when the canonical snapshot exposed it.
-          examples:
-          - '580876383'
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - displayName
-      type: object
-    ErrorModel:
-      additionalProperties: false
-      properties:
-        detail:
-          description: A human-readable explanation specific to this occurrence of the problem.
-          examples:
-          - Property foo is required but is missing.
-          type: string
-        errors:
-          description: Optional list of individual error details
-          items:
-            $ref: '#/components/schemas/ErrorDetail'
-          type:
-          - array
-          - 'null'
-        instance:
-          description: A URI reference that identifies the specific occurrence of the problem.
-          examples:
-          - https://example.com/error-log/abc123
-          format: uri
-          type: string
-        status:
-          description: HTTP status code
-          examples:
-          - 400
-          format: int64
-          type: integer
-        title:
-          description: A short, human-readable summary of the problem type. This value should not change between occurrences of the error.
-          examples:
-          - Bad Request
-          type: string
-        type:
-          default: about:blank
-          description: A URI reference to human-readable documentation for the error.
-          examples:
-          - https://example.com/errors/example
-          format: uri
-          type: string
       type: object
   securitySchemes:
     ApiKeyAuth:

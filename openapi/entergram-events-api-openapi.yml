@@ -177,14 +177,6 @@ components:
       - chatTitle
       - createdAt
       type: object
-    ListEventsOutputBody:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/EventListResult'
-      required:
-      - data
-      type: object
     ErrorModel:
       additionalProperties: false
       properties:
@@ -224,6 +216,14 @@ components:
           - https://example.com/errors/example
           format: uri
           type: string
+      type: object
+    ListEventsOutputBody:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/EventListResult'
+      required:
+      - data
       type: object
   securitySchemes:
     ApiKeyAuth:

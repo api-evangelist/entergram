@@ -45,6 +45,25 @@ components:
         value:
           description: The value at the given location
       type: object
+    MeResponse:
+      additionalProperties: false
+      properties:
+        apiKey:
+          $ref: '#/components/schemas/ApiKeySummary'
+        workspace:
+          $ref: '#/components/schemas/MeWorkspaceSummary'
+      required:
+      - apiKey
+      - workspace
+      type: object
+    MeEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/MeResponse'
+      required:
+      - data
+      type: object
     MeWorkspaceSummary:
       additionalProperties: false
       properties:
@@ -77,25 +96,6 @@ components:
       - keyPrefix
       - expiresAt
       - scopes
-      type: object
-    MeResponse:
-      additionalProperties: false
-      properties:
-        apiKey:
-          $ref: '#/components/schemas/ApiKeySummary'
-        workspace:
-          $ref: '#/components/schemas/MeWorkspaceSummary'
-      required:
-      - apiKey
-      - workspace
-      type: object
-    MeEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/MeResponse'
-      required:
-      - data
       type: object
     ErrorModel:
       additionalProperties: false

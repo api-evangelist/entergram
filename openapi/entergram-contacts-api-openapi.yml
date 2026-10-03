@@ -219,21 +219,6 @@ paths:
       - contacts.read
 components:
   schemas:
-    ContactsList:
-      additionalProperties: false
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/WorkspaceContactSummary'
-          type:
-          - array
-          - 'null'
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-      required:
-      - items
-      - pagination
-      type: object
     ErrorDetail:
       additionalProperties: false
       properties:
@@ -246,31 +231,62 @@ components:
         value:
           description: The value at the given location
       type: object
-    Pagination:
+    ContactsEnvelope:
       additionalProperties: false
       properties:
-        hasMore:
-          type: boolean
-        limit:
-          format: int64
-          type: integer
-        nextOffset:
-          format: int64
-          type:
-          - integer
-          - 'null'
-        offset:
-          format: int64
-          type: integer
-        total:
-          format: int64
-          type: integer
+        data:
+          $ref: '#/components/schemas/ContactsList'
       required:
-      - limit
-      - offset
-      - total
-      - hasMore
-      - nextOffset
+      - data
+      type: object
+    ContactEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/WorkspaceContactSummary'
+      required:
+      - data
+      type: object
+    ContactKnownByAccountSummary:
+      additionalProperties: false
+      properties:
+        accountId:
+          description: Connected account identifier.
+          examples:
+          - acct_demo_123
+          type: string
+        displayName:
+          description: Operator-facing label for the connected account.
+          examples:
+          - Ops Sample
+          type:
+          - string
+          - 'null'
+        ownerDisplayName:
+          description: Display name of the workspace member that owns the connected account.
+          examples:
+          - Alex Example
+          type:
+          - string
+          - 'null'
+        ownerUserId:
+          description: Workspace member id that owns the connected account.
+          examples:
+          - user_demo_123
+          type: string
+        username:
+          description: Telegram username of the connected account.
+          examples:
+          - ops_sample
+          type:
+          - string
+          - 'null'
+      required:
+      - accountId
+      - username
+      - displayName
+      - ownerUserId
+      - ownerDisplayName
       type: object
     SharedGroupsList:
       additionalProperties: false
@@ -288,83 +304,20 @@ components:
       - items
       - total
       type: object
-    SharedGroupsEnvelope:
+    ContactsList:
       additionalProperties: false
       properties:
-        data:
-          $ref: '#/components/schemas/SharedGroupsList'
+        items:
+          items:
+            $ref: '#/components/schemas/WorkspaceContactSummary'
+          type:
+          - array
+          - 'null'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
       required:
-      - data
-      type: object
-    ContactSharedGroupSummary:
-      additionalProperties: false
-      properties:
-        chatType:
-          description: Normalized chat type.
-          examples:
-          - group
-          type: string
-        displayName:
-          description: Best available group title.
-          examples:
-          - Community Alpha
-          type: string
-        groupId:
-          description: Canonical Telegram chat identifier for the shared group.
-          examples:
-          - '-1000001234567'
-          type: string
-        inviteLink:
-          description: Most recently cached invite link for the group.
-          examples:
-          - https://t.me/+sampleinvite123
-          type:
-          - string
-          - 'null'
-        inviteLinkUpdatedAt:
-          description: Timestamp of the last invite-link refresh.
-          format: date-time
-          type:
-          - string
-          - 'null'
-        memberCount:
-          description: Cached member count for the group.
-          examples:
-          - 245
-          format: int64
-          type:
-          - integer
-          - 'null'
-        participantCount:
-          description: Member count rendered for contacts UI compatibility.
-          examples:
-          - 245
-          format: int64
-          type: integer
-        username:
-          description: Telegram username for the group when available.
-          examples:
-          - samplecommunity
-          type:
-          - string
-          - 'null'
-      required:
-      - groupId
-      - displayName
-      - username
-      - chatType
-      - inviteLink
-      - inviteLinkUpdatedAt
-      - memberCount
-      - participantCount
-      type: object
-    ContactsEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/ContactsList'
-      required:
-      - data
+      - items
+      - pagination
       type: object
     WorkspaceContactSummary:
       additionalProperties: false
@@ -449,54 +402,31 @@ components:
       - knownByAccounts
       - sharedGroups
       type: object
-    ContactKnownByAccountSummary:
+    Pagination:
       additionalProperties: false
       properties:
-        accountId:
-          description: Connected account identifier.
-          examples:
-          - acct_demo_123
-          type: string
-        displayName:
-          description: Operator-facing label for the connected account.
-          examples:
-          - Ops Sample
+        hasMore:
+          type: boolean
+        limit:
+          format: int64
+          type: integer
+        nextOffset:
+          format: int64
           type:
-          - string
+          - integer
           - 'null'
-        ownerDisplayName:
-          description: Display name of the workspace member that owns the connected account.
-          examples:
-          - Alex Example
-          type:
-          - string
-          - 'null'
-        ownerUserId:
-          description: Workspace member id that owns the connected account.
-          examples:
-          - user_demo_123
-          type: string
-        username:
-          description: Telegram username of the connected account.
-          examples:
-          - ops_sample
-          type:
-          - string
-          - 'null'
+        offset:
+          format: int64
+          type: integer
+        total:
+          format: int64
+          type: integer
       required:
-      - accountId
-      - username
-      - displayName
-      - ownerUserId
-      - ownerDisplayName
-      type: object
-    ContactEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/WorkspaceContactSummary'
-      required:
-      - data
+      - limit
+      - offset
+      - total
+      - hasMore
+      - nextOffset
       type: object
     ErrorModel:
       additionalProperties: false
@@ -537,6 +467,76 @@ components:
           - https://example.com/errors/example
           format: uri
           type: string
+      type: object
+    ContactSharedGroupSummary:
+      additionalProperties: false
+      properties:
+        chatType:
+          description: Normalized chat type.
+          examples:
+          - group
+          type: string
+        displayName:
+          description: Best available group title.
+          examples:
+          - Community Alpha
+          type: string
+        groupId:
+          description: Canonical Telegram chat identifier for the shared group.
+          examples:
+          - '-1000001234567'
+          type: string
+        inviteLink:
+          description: Most recently cached invite link for the group.
+          examples:
+          - https://t.me/+sampleinvite123
+          type:
+          - string
+          - 'null'
+        inviteLinkUpdatedAt:
+          description: Timestamp of the last invite-link refresh.
+          format: date-time
+          type:
+          - string
+          - 'null'
+        memberCount:
+          description: Cached member count for the group.
+          examples:
+          - 245
+          format: int64
+          type:
+          - integer
+          - 'null'
+        participantCount:
+          description: Member count rendered for contacts UI compatibility.
+          examples:
+          - 245
+          format: int64
+          type: integer
+        username:
+          description: Telegram username for the group when available.
+          examples:
+          - samplecommunity
+          type:
+          - string
+          - 'null'
+      required:
+      - groupId
+      - displayName
+      - username
+      - chatType
+      - inviteLink
+      - inviteLinkUpdatedAt
+      - memberCount
+      - participantCount
+      type: object
+    SharedGroupsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/SharedGroupsList'
+      required:
+      - data
       type: object
   securitySchemes:
     ApiKeyAuth:
