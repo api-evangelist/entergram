@@ -158,40 +158,42 @@ paths:
       - members.read
 components:
   schemas:
-    ErrorDetail:
+    WorkspaceMemberSeatSummary:
       additionalProperties: false
       properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+        analyticsEnabled:
+          description: Whether analytics is enabled for this seat.
+          examples:
+          - true
+          type: boolean
+        extraTgCount:
+          description: Additional Telegram account allowance on this seat.
+          examples:
+          - 1
+          format: int64
+          type: integer
+        id:
+          description: Workspace seat identifier.
+          examples:
+          - seat_demo_123
           type: string
-        message:
-          description: Error message text
+        seatNumber:
+          description: Human-facing seat number.
+          examples:
+          - 2
+          format: int64
+          type: integer
+        status:
+          description: Current seat billing/allocation status.
+          examples:
+          - ACTIVE
           type: string
-        value:
-          description: The value at the given location
-      type: object
-    MemberEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/WorkspaceMemberSummary'
       required:
-      - data
-      type: object
-    MembersList:
-      additionalProperties: false
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/WorkspaceMemberSummary'
-          type:
-          - array
-          - 'null'
-        pagination:
-          $ref: '#/components/schemas/Pagination'
-      required:
-      - items
-      - pagination
+      - id
+      - seatNumber
+      - status
+      - analyticsEnabled
+      - extraTgCount
       type: object
     MembersEnvelope:
       additionalProperties: false
@@ -200,6 +202,57 @@ components:
           $ref: '#/components/schemas/MembersList'
       required:
       - data
+      type: object
+    WorkspaceMemberUserSummary:
+      additionalProperties: false
+      properties:
+        avatarUrl:
+          description: Profile avatar URL when available.
+          examples:
+          - https://cdn.example.test/avatar.png
+          type:
+          - string
+          - 'null'
+        displayName:
+          description: Profile display name when available.
+          examples:
+          - Alex Example
+          type:
+          - string
+          - 'null'
+        email:
+          description: Member email when available.
+          examples:
+          - alex@example.test
+          type:
+          - string
+          - 'null'
+        firstName:
+          description: Profile first name when available.
+          examples:
+          - Alex
+          type:
+          - string
+          - 'null'
+        id:
+          description: User identifier used by ticket assignment fields.
+          examples:
+          - 00000000-0000-0000-0000-000000000001
+          type: string
+        lastName:
+          description: Profile last name when available.
+          examples:
+          - Example
+          type:
+          - string
+          - 'null'
+      required:
+      - id
+      - email
+      - displayName
+      - firstName
+      - lastName
+      - avatarUrl
       type: object
     WorkspaceMemberSummary:
       additionalProperties: false
@@ -263,42 +316,28 @@ components:
       - user
       - seat
       type: object
-    WorkspaceMemberSeatSummary:
+    MemberEnvelope:
       additionalProperties: false
       properties:
-        analyticsEnabled:
-          description: Whether analytics is enabled for this seat.
-          examples:
-          - true
-          type: boolean
-        extraTgCount:
-          description: Additional Telegram account allowance on this seat.
-          examples:
-          - 1
-          format: int64
-          type: integer
-        id:
-          description: Workspace seat identifier.
-          examples:
-          - seat_demo_123
-          type: string
-        seatNumber:
-          description: Human-facing seat number.
-          examples:
-          - 2
-          format: int64
-          type: integer
-        status:
-          description: Current seat billing/allocation status.
-          examples:
-          - ACTIVE
-          type: string
+        data:
+          $ref: '#/components/schemas/WorkspaceMemberSummary'
       required:
-      - id
-      - seatNumber
-      - status
-      - analyticsEnabled
-      - extraTgCount
+      - data
+      type: object
+    MembersList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/WorkspaceMemberSummary'
+          type:
+          - array
+          - 'null'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+      required:
+      - items
+      - pagination
       type: object
     Pagination:
       additionalProperties: false
@@ -366,56 +405,17 @@ components:
           format: uri
           type: string
       type: object
-    WorkspaceMemberUserSummary:
+    ErrorDetail:
       additionalProperties: false
       properties:
-        avatarUrl:
-          description: Profile avatar URL when available.
-          examples:
-          - https://cdn.example.test/avatar.png
-          type:
-          - string
-          - 'null'
-        displayName:
-          description: Profile display name when available.
-          examples:
-          - Alex Example
-          type:
-          - string
-          - 'null'
-        email:
-          description: Member email when available.
-          examples:
-          - alex@example.test
-          type:
-          - string
-          - 'null'
-        firstName:
-          description: Profile first name when available.
-          examples:
-          - Alex
-          type:
-          - string
-          - 'null'
-        id:
-          description: User identifier used by ticket assignment fields.
-          examples:
-          - 00000000-0000-0000-0000-000000000001
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
           type: string
-        lastName:
-          description: Profile last name when available.
-          examples:
-          - Example
-          type:
-          - string
-          - 'null'
-      required:
-      - id
-      - email
-      - displayName
-      - firstName
-      - lastName
-      - avatarUrl
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
       type: object
   securitySchemes:
     ApiKeyAuth:

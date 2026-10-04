@@ -55,52 +55,6 @@ paths:
       - Workspace
 components:
   schemas:
-    ErrorDetail:
-      additionalProperties: false
-      properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
-          type: string
-        message:
-          description: Error message text
-          type: string
-        value:
-          description: The value at the given location
-      type: object
-    WorkspaceEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/WorkspaceSummary'
-      required:
-      - data
-      type: object
-    AccessOutputBody:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/DataStruct'
-      required:
-      - data
-      type: object
-    WorkspaceSummary:
-      additionalProperties: false
-      properties:
-        createdAt:
-          format: date-time
-          type: string
-        id:
-          type: string
-        name:
-          type: string
-        planTier:
-          type: string
-      required:
-      - id
-      - name
-      - planTier
-      - createdAt
-      type: object
     ErrorModel:
       additionalProperties: false
       properties:
@@ -141,6 +95,34 @@ components:
           format: uri
           type: string
       type: object
+    AccessOutputBody:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/DataStruct'
+      required:
+      - data
+      type: object
+    WorkspaceEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/WorkspaceSummary'
+      required:
+      - data
+      type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
+      type: object
     DataStruct:
       additionalProperties: false
       properties:
@@ -148,6 +130,24 @@ components:
           type: boolean
       required:
       - allowed
+      type: object
+    WorkspaceSummary:
+      additionalProperties: false
+      properties:
+        createdAt:
+          format: date-time
+          type: string
+        id:
+          type: string
+        name:
+          type: string
+        planTier:
+          type: string
+      required:
+      - id
+      - name
+      - planTier
+      - createdAt
       type: object
   securitySchemes:
     ApiKeyAuth:

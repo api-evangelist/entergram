@@ -33,18 +33,6 @@ paths:
       - System
 components:
   schemas:
-    ErrorDetail:
-      additionalProperties: false
-      properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
-          type: string
-        message:
-          description: Error message text
-          type: string
-        value:
-          description: The value at the given location
-      type: object
     MeResponse:
       additionalProperties: false
       properties:
@@ -63,17 +51,6 @@ components:
           $ref: '#/components/schemas/MeResponse'
       required:
       - data
-      type: object
-    MeWorkspaceSummary:
-      additionalProperties: false
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-      required:
-      - id
-      - name
       type: object
     ApiKeySummary:
       additionalProperties: false
@@ -96,6 +73,17 @@ components:
       - keyPrefix
       - expiresAt
       - scopes
+      type: object
+    MeWorkspaceSummary:
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - name
       type: object
     ErrorModel:
       additionalProperties: false
@@ -136,6 +124,18 @@ components:
           - https://example.com/errors/example
           format: uri
           type: string
+      type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
       type: object
   securitySchemes:
     ApiKeyAuth:
