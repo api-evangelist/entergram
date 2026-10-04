@@ -1,0 +1,36 @@
+slug: entergram
+provider: Entergram
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Contacts
+  spec_file: entergram-contacts-api-openapi.yml
+  capability_id: BC-420.10
+  capability_id_l1: BC-420
+  capability_name: Customer Data Management
+  confidence: 0.7
+  evidence: GET /v1/contacts — 'List workspace contacts'; schema WorkspaceContactSummary
+  reason: Read surface over the CRM's contact records (workspace contacts, which accounts know them, shared
+    groups) — customer/contact master data in a CRM, which maps to Customer Data Management. Read-only
+    and thin on identity-resolution detail, hence 0.7.
+- tag: Tickets
+  spec_file: entergram-tickets-api-openapi.yml
+  capability_id: BC-430.10
+  capability_id_l1: BC-430
+  capability_name: Customer Inquiry Management
+  confidence: 0.7
+  evidence: 'List tickets for the current workspace / Create a ticket / Create a ticket comment; vendor:
+    "a ticketing system with assignment, SLA and status tracking"'
+  reason: Full CRUD over support tickets plus comment threads, with assignment and SLA per the vendor
+    description — this realises customer inquiry handling (inbound contact capture, routing, resolution).
+    Some ambiguity vs complaint management, hence moderate confidence.
