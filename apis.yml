@@ -510,6 +510,8 @@ apis:
   - type: RateLimits
     url: rate-limits/entergram-rate-limits.yml
 common:
+- type: RateLimits
+  url: rate-limits/entergram-rate-limits.yml
 - type: CapabilityMap
   url: capabilities/entergram-capability-edges.yml
   name: Entergram Business Capability Map
