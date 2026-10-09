@@ -76,3 +76,37 @@ supported_clients:
 - Cline
 - n8n
 - Make.com
+rfc9728:
+  endpoint: https://mcp.entergram.com/mcp
+  metadata_url: https://mcp.entergram.com/.well-known/oauth-protected-resource/mcp
+  discovered_via: WWW-Authenticate resource_metadata on an anonymous POST initialize
+  fetched: '2026-09-25'
+  http_status: 200
+  content_type: application/json
+  document:
+    resource: https://mcp.entergram.com/mcp
+    authorization_servers:
+    - https://app.entergram.com
+    scopes_supported:
+    - workspace.read
+    - members.read
+    - accounts.read
+    - contacts.read
+    - chats.read
+    - chats.write
+    - chat_custom_fields.read
+    - chat_custom_fields.write
+    - messages.read
+    - messages.write
+    - custom_fields.read
+    - custom_fields.write
+    - tickets.read
+    - tickets.write
+    - events.read
+    - openid
+    - profile
+    - email
+    bearer_methods_supported:
+    - header
+    resource_name: Entergram MCP
+    resource_documentation: https://app.entergram.com/settings

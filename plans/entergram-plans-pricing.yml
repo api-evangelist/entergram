@@ -45,3 +45,29 @@ plans:
   - Data-region control
   - Organization-specific deployment
   contact: https://www.entergram.com/contact
+x-canonical:
+  generated: '2026-10-08'
+  vocabulary: all/0-working/economics/plans-canonical.yml
+  models:
+  - negotiated
+  - subscription
+  units: []
+  plans:
+  - name: Basic
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Pro
+    access: other
+    model: subscription
+    model_how: derived
+    units: []
+    periods: []
+  - name: Enterprise
+    access: other
+    model: negotiated
+    model_how: derived
+    units: []
+    periods: []
