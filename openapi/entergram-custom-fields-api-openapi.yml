@@ -1338,6 +1338,155 @@ paths:
       - custom_fields.write
 components:
   schemas:
+    CreateOptionBody:
+      additionalProperties: false
+      properties:
+        color:
+          description: Hex color token used by Entergram UI.
+          examples:
+          - '#3b82f6'
+          type: string
+        label:
+          description: Human-readable label.
+          examples:
+          - Qualified
+          minLength: 1
+          type: string
+        value:
+          description: Stable value stored in field payloads.
+          examples:
+          - qualified
+          minLength: 1
+          type: string
+      required:
+      - value
+      - label
+      type: object
+    OptionsList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/FieldOptionSummary'
+          type:
+          - array
+          - 'null'
+      required:
+      - items
+      type: object
+    PatchChatCustomFieldsBody:
+      additionalProperties: false
+      properties:
+        values:
+          additionalProperties: {}
+          description: Partial patch keyed by custom-column key. Send null or an empty string to delete a field.
+          type: object
+      required:
+      - values
+      type: object
+    ColumnsList:
+      additionalProperties: false
+      properties:
+        items:
+          items:
+            $ref: '#/components/schemas/FieldColumnSummary'
+          type:
+          - array
+          - 'null'
+      required:
+      - items
+      type: object
+    ChatCustomFieldsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/ChatCustomFieldsResource'
+      required:
+      - data
+      type: object
+    ColumnsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/ColumnsList'
+      required:
+      - data
+      type: object
+    ChatCustomFieldsResource:
+      additionalProperties: false
+      properties:
+        telegramChatId:
+          description: Canonical Telegram chat identifier.
+          examples:
+          - '-1000001234567'
+          type: string
+        values:
+          additionalProperties: {}
+          description: Custom field values keyed by custom-column key.
+          type: object
+      required:
+      - telegramChatId
+      - values
+      type: object
+    ColumnEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/FieldColumnSummary'
+      required:
+      - data
+      type: object
+    OptionsEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/OptionsList'
+      required:
+      - data
+      type: object
+    CreateColumnBody:
+      additionalProperties: false
+      properties:
+        defaultValue:
+          description: Optional JSON default value, for example a string, boolean, or array payload.
+        isRequired:
+          description: Whether the field is required in the operator UI.
+          examples:
+          - false
+          type: boolean
+        key:
+          description: Optional stable key. When omitted it is slugified from the name.
+          examples:
+          - relationship_stage
+          type: string
+        name:
+          description: Human-readable field label.
+          examples:
+          - Relationship Stage
+          minLength: 1
+          type: string
+        options:
+          description: Optional option list for select and multiselect fields.
+          items:
+            $ref: '#/components/schemas/CreateOptionBody'
+          type:
+          - array
+          - 'null'
+        order:
+          description: Optional explicit display order.
+          examples:
+          - 3
+          format: int64
+          type: integer
+        type:
+          description: Field input type.
+          examples:
+          - select
+          type: string
+      required:
+      - name
+      - type
+      type: object
     FieldColumnSummary:
       additionalProperties: false
       properties:
@@ -1400,17 +1549,84 @@ components:
       - updatedAt
       - options
       type: object
-    ColumnsList:
+    FieldOptionSummary:
       additionalProperties: false
       properties:
-        items:
-          items:
-            $ref: '#/components/schemas/FieldColumnSummary'
-          type:
-          - array
-          - 'null'
+        color:
+          description: Hex color token for UI badges.
+          examples:
+          - '#3b82f6'
+          type: string
+        createdAt:
+          description: Option creation timestamp.
+          format: date-time
+          type: string
+        id:
+          description: Option identifier.
+          examples:
+          - field_option_demo_123
+          type: string
+        label:
+          description: Human-readable option label.
+          examples:
+          - Qualified
+          type: string
+        updatedAt:
+          description: Option last update timestamp.
+          format: date-time
+          type: string
+        value:
+          description: Stable option value stored in field payloads.
+          examples:
+          - qualified
+          type: string
       required:
-      - items
+      - id
+      - value
+      - label
+      - color
+      - createdAt
+      - updatedAt
+      type: object
+    UpdateColumnBody:
+      additionalProperties: false
+      properties:
+        defaultValue:
+          description: Updated JSON default value. Pass null to clear it.
+        isRequired:
+          description: Updated required flag.
+          examples:
+          - true
+          type: boolean
+        name:
+          description: Updated human-readable field label.
+          examples:
+          - Account Segment
+          type: string
+        options:
+          description: Full replacement for selectable options. Send an empty array to clear all options.
+          items:
+            $ref: '#/components/schemas/CreateOptionBody'
+          type: array
+        order:
+          description: Updated display order.
+          examples:
+          - 4
+          format: int64
+          type: integer
+        type:
+          description: Updated field input type.
+          examples:
+          - multiselect
+          type: string
+      type: object
+    DeletedEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/DeletedResource'
+      required:
+      - data
       type: object
     OptionEnvelope:
       additionalProperties: false
@@ -1420,33 +1636,16 @@ components:
       required:
       - data
       type: object
-    OptionsEnvelope:
+    DeletedResource:
       additionalProperties: false
       properties:
-        data:
-          $ref: '#/components/schemas/OptionsList'
-      required:
-      - data
-      type: object
-    ErrorDetail:
-      additionalProperties: false
-      properties:
-        location:
-          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+        id:
+          description: Deleted resource identifier.
+          examples:
+          - column_demo_123
           type: string
-        message:
-          description: Error message text
-          type: string
-        value:
-          description: The value at the given location
-      type: object
-    ColumnEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/FieldColumnSummary'
       required:
-      - data
+      - id
       type: object
     ErrorModel:
       additionalProperties: false
@@ -1488,6 +1687,18 @@ components:
           format: uri
           type: string
       type: object
+    ErrorDetail:
+      additionalProperties: false
+      properties:
+        location:
+          description: Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'
+          type: string
+        message:
+          description: Error message text
+          type: string
+        value:
+          description: The value at the given location
+      type: object
     UpdateOptionBody:
       additionalProperties: false
       properties:
@@ -1506,217 +1717,6 @@ components:
           examples:
           - qualified_plus
           type: string
-      type: object
-    UpdateColumnBody:
-      additionalProperties: false
-      properties:
-        defaultValue:
-          description: Updated JSON default value. Pass null to clear it.
-        isRequired:
-          description: Updated required flag.
-          examples:
-          - true
-          type: boolean
-        name:
-          description: Updated human-readable field label.
-          examples:
-          - Account Segment
-          type: string
-        options:
-          description: Full replacement for selectable options. Send an empty array to clear all options.
-          items:
-            $ref: '#/components/schemas/CreateOptionBody'
-          type: array
-        order:
-          description: Updated display order.
-          examples:
-          - 4
-          format: int64
-          type: integer
-        type:
-          description: Updated field input type.
-          examples:
-          - multiselect
-          type: string
-      type: object
-    CreateColumnBody:
-      additionalProperties: false
-      properties:
-        defaultValue:
-          description: Optional JSON default value, for example a string, boolean, or array payload.
-        isRequired:
-          description: Whether the field is required in the operator UI.
-          examples:
-          - false
-          type: boolean
-        key:
-          description: Optional stable key. When omitted it is slugified from the name.
-          examples:
-          - relationship_stage
-          type: string
-        name:
-          description: Human-readable field label.
-          examples:
-          - Relationship Stage
-          minLength: 1
-          type: string
-        options:
-          description: Optional option list for select and multiselect fields.
-          items:
-            $ref: '#/components/schemas/CreateOptionBody'
-          type:
-          - array
-          - 'null'
-        order:
-          description: Optional explicit display order.
-          examples:
-          - 3
-          format: int64
-          type: integer
-        type:
-          description: Field input type.
-          examples:
-          - select
-          type: string
-      required:
-      - name
-      - type
-      type: object
-    ColumnsEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/ColumnsList'
-      required:
-      - data
-      type: object
-    DeletedEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/DeletedResource'
-      required:
-      - data
-      type: object
-    PatchChatCustomFieldsBody:
-      additionalProperties: false
-      properties:
-        values:
-          additionalProperties: {}
-          description: Partial patch keyed by custom-column key. Send null or an empty string to delete a field.
-          type: object
-      required:
-      - values
-      type: object
-    OptionsList:
-      additionalProperties: false
-      properties:
-        items:
-          items:
-            $ref: '#/components/schemas/FieldOptionSummary'
-          type:
-          - array
-          - 'null'
-      required:
-      - items
-      type: object
-    ChatCustomFieldsEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/ChatCustomFieldsResource'
-      required:
-      - data
-      type: object
-    ChatCustomFieldsResource:
-      additionalProperties: false
-      properties:
-        telegramChatId:
-          description: Canonical Telegram chat identifier.
-          examples:
-          - '-1000001234567'
-          type: string
-        values:
-          additionalProperties: {}
-          description: Custom field values keyed by custom-column key.
-          type: object
-      required:
-      - telegramChatId
-      - values
-      type: object
-    DeletedResource:
-      additionalProperties: false
-      properties:
-        id:
-          description: Deleted resource identifier.
-          examples:
-          - column_demo_123
-          type: string
-      required:
-      - id
-      type: object
-    CreateOptionBody:
-      additionalProperties: false
-      properties:
-        color:
-          description: Hex color token used by Entergram UI.
-          examples:
-          - '#3b82f6'
-          type: string
-        label:
-          description: Human-readable label.
-          examples:
-          - Qualified
-          minLength: 1
-          type: string
-        value:
-          description: Stable value stored in field payloads.
-          examples:
-          - qualified
-          minLength: 1
-          type: string
-      required:
-      - value
-      - label
-      type: object
-    FieldOptionSummary:
-      additionalProperties: false
-      properties:
-        color:
-          description: Hex color token for UI badges.
-          examples:
-          - '#3b82f6'
-          type: string
-        createdAt:
-          description: Option creation timestamp.
-          format: date-time
-          type: string
-        id:
-          description: Option identifier.
-          examples:
-          - field_option_demo_123
-          type: string
-        label:
-          description: Human-readable option label.
-          examples:
-          - Qualified
-          type: string
-        updatedAt:
-          description: Option last update timestamp.
-          format: date-time
-          type: string
-        value:
-          description: Stable option value stored in field payloads.
-          examples:
-          - qualified
-          type: string
-      required:
-      - id
-      - value
-      - label
-      - color
-      - createdAt
-      - updatedAt
       type: object
   securitySchemes:
     ApiKeyAuth:

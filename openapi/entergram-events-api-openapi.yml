@@ -74,24 +74,13 @@ paths:
       - events.read
 components:
   schemas:
-    EventListResult:
+    ListEventsOutputBody:
       additionalProperties: false
       properties:
-        hasMore:
-          type: boolean
-        items:
-          items:
-            $ref: '#/components/schemas/MessageEvent'
-          type:
-          - array
-          - 'null'
-        nextCursor:
-          format: int64
-          type: integer
+        data:
+          $ref: '#/components/schemas/EventListResult'
       required:
-      - items
-      - nextCursor
-      - hasMore
+      - data
       type: object
     ErrorDetail:
       additionalProperties: false
@@ -217,13 +206,24 @@ components:
       - chatTitle
       - createdAt
       type: object
-    ListEventsOutputBody:
+    EventListResult:
       additionalProperties: false
       properties:
-        data:
-          $ref: '#/components/schemas/EventListResult'
+        hasMore:
+          type: boolean
+        items:
+          items:
+            $ref: '#/components/schemas/MessageEvent'
+          type:
+          - array
+          - 'null'
+        nextCursor:
+          format: int64
+          type: integer
       required:
-      - data
+      - items
+      - nextCursor
+      - hasMore
       type: object
   securitySchemes:
     ApiKeyAuth:

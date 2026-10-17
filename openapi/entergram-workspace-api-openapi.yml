@@ -55,6 +55,30 @@ paths:
       - Workspace
 components:
   schemas:
+    AccessOutputBody:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/DataStruct'
+      required:
+      - data
+      type: object
+    WorkspaceEnvelope:
+      additionalProperties: false
+      properties:
+        data:
+          $ref: '#/components/schemas/WorkspaceSummary'
+      required:
+      - data
+      type: object
+    DataStruct:
+      additionalProperties: false
+      properties:
+        allowed:
+          type: boolean
+      required:
+      - allowed
+      type: object
     ErrorModel:
       additionalProperties: false
       properties:
@@ -95,22 +119,6 @@ components:
           format: uri
           type: string
       type: object
-    AccessOutputBody:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/DataStruct'
-      required:
-      - data
-      type: object
-    WorkspaceEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/WorkspaceSummary'
-      required:
-      - data
-      type: object
     ErrorDetail:
       additionalProperties: false
       properties:
@@ -122,14 +130,6 @@ components:
           type: string
         value:
           description: The value at the given location
-      type: object
-    DataStruct:
-      additionalProperties: false
-      properties:
-        allowed:
-          type: boolean
-      required:
-      - allowed
       type: object
     WorkspaceSummary:
       additionalProperties: false

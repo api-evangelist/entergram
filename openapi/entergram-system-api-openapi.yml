@@ -33,25 +33,6 @@ paths:
       - System
 components:
   schemas:
-    MeResponse:
-      additionalProperties: false
-      properties:
-        apiKey:
-          $ref: '#/components/schemas/ApiKeySummary'
-        workspace:
-          $ref: '#/components/schemas/MeWorkspaceSummary'
-      required:
-      - apiKey
-      - workspace
-      type: object
-    MeEnvelope:
-      additionalProperties: false
-      properties:
-        data:
-          $ref: '#/components/schemas/MeResponse'
-      required:
-      - data
-      type: object
     ApiKeySummary:
       additionalProperties: false
       properties:
@@ -74,16 +55,13 @@ components:
       - expiresAt
       - scopes
       type: object
-    MeWorkspaceSummary:
+    MeEnvelope:
       additionalProperties: false
       properties:
-        id:
-          type: string
-        name:
-          type: string
+        data:
+          $ref: '#/components/schemas/MeResponse'
       required:
-      - id
-      - name
+      - data
       type: object
     ErrorModel:
       additionalProperties: false
@@ -125,6 +103,17 @@ components:
           format: uri
           type: string
       type: object
+    MeResponse:
+      additionalProperties: false
+      properties:
+        apiKey:
+          $ref: '#/components/schemas/ApiKeySummary'
+        workspace:
+          $ref: '#/components/schemas/MeWorkspaceSummary'
+      required:
+      - apiKey
+      - workspace
+      type: object
     ErrorDetail:
       additionalProperties: false
       properties:
@@ -136,6 +125,17 @@ components:
           type: string
         value:
           description: The value at the given location
+      type: object
+    MeWorkspaceSummary:
+      additionalProperties: false
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+      required:
+      - id
+      - name
       type: object
   securitySchemes:
     ApiKeyAuth:
