@@ -1,4 +1,4 @@
-# Entergram (entergram)
+# Entergram
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,9 +64,147 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Entergram is a CRM built specifically for Telegram, connecting personal Telegram accounts (not bots) into a shared team workspace for sales, support, community and trading teams. Its developer surface includes a workspace-scoped REST API (X-API-Key), a hosted Model Context Protocol (MCP) server for personal Telegram accounts (OAuth2 + PKCE), and outbound webhooks for message events.
+Entergram is a CRM built specifically for Telegram. It connects personal Telegram accounts (not bots) into a shared team workspace where sales, support, community and trading teams manage conversations at scale — a multi-account inbox, a CRM table and Kanban pipeline, custom columns and labels, broadcast messaging, and a ticketing system with assignment, SLA and status tracking. Its developer surface has three parts: a workspace-scoped REST API (X-API-Key) covering accounts, contacts, groups, chats, messages, custom fields, tickets, webhooks and resumable events; a hosted Model Context Protocol (MCP) server for personal Telegram accounts (OAuth2 + PKCE) that lets AI agents read chats, manage tickets and update CRM fields; and outbound webhooks for incoming/outgoing message events, plus a Make.com integration.
 
-- **Website:** https://www.entergram.com
-- **API documentation:** https://api.entergram.com/docs
-- **OpenAPI:** [openapi/entergram-openapi.json](openapi/entergram-openapi.json)
-- **MCP server:** https://mcp.entergram.com/mcp
+**Areas:** Messaging · Notification · Communications · CRM · Telegram · Customer Service · Ticketing · Sales · MCP · Webhook
+
+## Entergram on APIs.io
+
+Everything profiled for Entergram is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/entergram/](https://apis.io/providers/entergram/)** — or go straight to one of the APIs or properties below.
+
+### APIs (16)
+
+- [Entergram Accounts API](https://apis.io/apis/entergram/entergram-accounts-api/) — Connected account inventory.
+- [Entergram Chat Commands API](https://apis.io/apis/entergram/entergram-chat-commands-api/) — Telegram chat creation and group/channel management commands scoped to an explicit connected account.
+- [Entergram Chats API](https://apis.io/apis/entergram/entergram-chats-api/) — Actor-scoped chats, linked tickets, and internal chat comments keyed by Telegram chat ID.
+- [Entergram Contacts API](https://apis.io/apis/entergram/entergram-contacts-api/) — Workspace contacts deduplicated across connected accounts, including shared groups and attribution.
+- [Entergram Custom Fields API](https://apis.io/apis/entergram/entergram-custom-fields-api/) — Workspace chat custom columns, ticket custom columns, selectable options, and workspace-shared chat custom field values.
+- [Entergram Events API](https://apis.io/apis/entergram/entergram-events-api/) — Metadata-only, cursor-based workspace event stream for resumable integrations.
+- [Entergram Groups API](https://apis.io/apis/entergram/entergram-groups-api/) — Workspace groups derived from shared-contact graph, with invite-link and member metadata when cached.
+- [Entergram Live Chats API](https://apis.io/apis/entergram/entergram-live-chats-api/) — Actor-owned live Telegram transport view used for current chat discovery before message operations.
+- [Entergram Make webhooks API](https://apis.io/apis/entergram/entergram-make-webhooks-api/) — The Make webhooks API from Entergram — 2 operation(s) for make webhooks.
+- [Entergram Members API](https://apis.io/apis/entergram/entergram-members-api/) — Safe workspace member identity, role, permissions, and seat assignment metadata.
+- [Entergram Messages API](https://apis.io/apis/entergram/entergram-messages-api/) — Telegram message history and message write operations scoped to an explicit account and chat.
+- [Entergram System API](https://apis.io/apis/entergram/entergram-system-api/) — Authentication and runtime context.
+- [Entergram Tickets API](https://apis.io/apis/entergram/entergram-tickets-api/) — Workspace ticket inventory, ticket detail, comments, and linked chat filters.
+- [Entergram Webhooks API](https://apis.io/apis/entergram/entergram-webhooks-api/) — API-only webhook endpoint configuration, secret rotation, tests, and sanitized delivery status.
+- [Entergram Workspace API](https://apis.io/apis/entergram/entergram-workspace-api/) — Workspace metadata and feature access.
+- [Entergram Workspace Chats API](https://apis.io/apis/entergram/entergram-workspace-chats-api/) — Shared CRM chat view from frontend DB, deduplicated across workspace accounts and suited for metadata, custom fields, and ticket workflows.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### AsyncAPI (1)
+
+Event-driven and webhook contracts.
+
+- [Entergram Webhooks](https://apis.io/asyncapis/entergram/entergram-webhooks/)
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [Entergram Telegram MCP Server](https://apis.io/servers/entergram/entergram-telegram-mcp-server/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Entergram Openapi Overlay](https://apis.io/overlays/entergram/entergram-openapi-overlay/)
+
+#### Security (4)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Entergram Authentication](https://apis.io/security/entergram/entergram-authentication/)
+- [Entergram Domain Security](https://apis.io/security/entergram/entergram-domain-security/)
+- [Entergram Trust Center](https://apis.io/security/entergram/entergram-trust-center/)
+- [Entergram Vulnerability Disclosure](https://apis.io/security/entergram/entergram-vulnerability-disclosure/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Entergram Scopes](https://apis.io/scopes/entergram/entergram-scopes/)
+
+#### Plans and pricing (1)
+
+Published plans, tiers and prices.
+
+- [Entergram Plans Pricing](https://apis.io/plans/entergram/entergram-plans-pricing/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Entergram Rate Limits](https://apis.io/rate-limits/entergram/entergram-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://www.entergram.com)
+- [Documentation](https://api.entergram.com/docs)
+- [API reference](https://api.entergram.com/docs)
+- [Pricing](https://www.entergram.com/pricing)
+- [Support](https://www.entergram.com/help-center)
+- [Blog](https://www.entergram.com/blog)
+- [Terms of service](https://www.entergram.com/terms)
+- [Privacy policy](https://www.entergram.com/privacy)
+- [Status](https://status.entergram.com)
+
+## API Evangelist rating
+
+**Kin Score 61.1** — strong · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 75.0 |
+| Contract quality | 58.4 |
+| Contract governance | 18.2 |
+| Operational transparency | 50.0 |
+| Developer ergonomics | 47.0 |
+| Access clarity | 85.5 |
+
+**Agent readiness 60.4** — agent-native
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | — |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | verified |
+| Error Semantics | verified |
+| OpenAPI Examples | — |
+| Rate Limit Signal | verified |
+| Event Surface Described | derived (partial credit) |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | distinct |
+
+**Regulatory alignment 45.1** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/entergram/](https://apis.io/providers/entergram/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Entergram: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/entergram/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
